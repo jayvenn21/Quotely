@@ -14,6 +14,7 @@
 		5E16B18E2BC2329E0072E408 /* QuoteGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B18D2BC2329E0072E408 /* QuoteGeneratorTests.swift */; };
 		5E16B1982BC2329E0072E408 /* QuoteGeneratorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B1972BC2329E0072E408 /* QuoteGeneratorUITests.swift */; };
 		5E16B19A2BC2329E0072E408 /* QuoteGeneratorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B1992BC2329E0072E408 /* QuoteGeneratorUITestsLaunchTests.swift */; };
+		5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B1AA2BC23B8D0072E408 /* HomePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		5E16B1932BC2329E0072E408 /* QuoteGeneratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuoteGeneratorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E16B1972BC2329E0072E408 /* QuoteGeneratorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteGeneratorUITests.swift; sourceTree = "<group>"; };
 		5E16B1992BC2329E0072E408 /* QuoteGeneratorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteGeneratorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5E16B1AA2BC23B8D0072E408 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				5E16B17E2BC2329D0072E408 /* ContentView.swift */,
 				5E16B1802BC2329E0072E408 /* Assets.xcassets */,
 				5E16B1822BC2329E0072E408 /* Preview Content */,
+				5E16B1AA2BC23B8D0072E408 /* HomePage.swift */,
 			);
 			path = QuoteGenerator;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E16B17F2BC2329D0072E408 /* ContentView.swift in Sources */,
+				5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */,
 				5E16B17D2BC2329D0072E408 /* QuoteGeneratorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

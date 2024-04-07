@@ -8,32 +8,33 @@ struct ContentView: View {
     let animationDuration: Double = 0.02 // Animation duration
 
     var body: some View {
-        ZStack {
-            // Background with moving objects
-            Color.white // Background color
-            
-            Circle()
-                .foregroundColor(.blue)
-                .frame(width: objectSize, height: objectSize)
-                .position(position)
-                .animation(nil) // Disable animation for the background object
-                .onAppear {
-                    self.startAnimation() // Start animation when view appears
+        NavigationView {
+            ZStack {
+                // Background with moving objects
+                Color.white // Background color
+                
+                Circle()
+                    .foregroundColor(.blue)
+                    .frame(width: objectSize, height: objectSize)
+                    .position(position)
+                    .animation(nil) // Disable animation for the background object
+                    .onAppear {
+                        self.startAnimation() // Start animation when view appears
+                    }
+
+                VStack {
+                    Spacer() // Pushes the text to the middle
+                    Text("Quote Generator")
+                        .font(.title)
+                        .padding()
+
+                    NavigationLink(destination: HomePage()) {
+                        Text("Open Quote Generator")
+                            .padding()
+                    }
+
+                    Spacer() // Pushes the button to the middle
                 }
-
-            VStack {
-                Spacer() // Pushes the text to the middle
-                Text("Quote Generator")
-                    .font(.title)
-                    .padding()
-
-                Button("Open Quote Generator") {
-                    print("Open Quote Generator tapped")
-                    // You can add navigation logic here
-                }
-                .padding()
-
-                Spacer() // Pushes the button to the middle
             }
         }
     }
