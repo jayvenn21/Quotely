@@ -56,7 +56,6 @@ struct HomePage: View {
         return filteredQuotes
     }
 
-
     var body: some View {
         VStack {
             HStack {
@@ -104,8 +103,8 @@ struct HomePage: View {
             }
         }
         .sheet(isPresented: $isAddQuoteDialogPresented) {
-            AddQuoteDialog(isPresented: $isAddQuoteDialogPresented) { quote, creator in
-                addQuote(quote: quote, creator: creator)
+            AddQuoteDialog(isPresented: $isAddQuoteDialogPresented) { quote, creator, lengthCategory in
+                addQuote(quote: quote, creator: creator, lengthCategory: lengthCategory)
             }
         }
         .sheet(isPresented: $isAboutDialogPresented) {
@@ -114,11 +113,18 @@ struct HomePage: View {
     }
 
     func generateQuote() {
+        guard !filteredQuotes.isEmpty else {
+            // Handle the case where filteredQuotes is empty
+            // For example, you can display an alert or disable the "Generate Quote" button
+            return
+        }
+        
         let randomIndex = Int.random(in: 0..<filteredQuotes.count)
         quote = filteredQuotes[randomIndex]
     }
 
-    func addQuote(quote: String, creator: String) {
+
+    func addQuote(quote: String, creator: String, lengthCategory: FilterLength) {
         let formattedQuote = "\(quote) - \(creator)"
         quotes.append(formattedQuote)
     }
@@ -201,7 +207,7 @@ struct AddQuoteDialog: View {
     @State private var creator: String = ""
     @State private var selectedCreator: FilterCreator = .general // Default selection
 
-    let onAddQuote: (String, String) -> Void
+    let onAddQuote: (String, String, FilterLength) -> Void
 
     var body: some View {
         VStack {
@@ -233,8 +239,8 @@ struct AddQuoteDialog: View {
                 .padding()
 
                 Button("Add Quote") {
-                    // Pass the selected creator type when adding the quote
-                    onAddQuote(quote, creator + " - \(selectedCreator)")
+                    let lengthCategory: FilterLength = determineLengthCategory(quote: quote)
+                    onAddQuote(quote, creator, lengthCategory)
                     isPresented = false
                 }
                 .padding()
@@ -242,8 +248,18 @@ struct AddQuoteDialog: View {
         }
         .padding()
     }
+    
+    // Function to determine the length category of the quote
+    func determineLengthCategory(quote: String) -> FilterLength {
+        let length = quote.components(separatedBy: " ")[0].count
+        switch length {
+        case ..<11:
+            return .short
+        case 11...30:
+            return .medium
+        default:
+            return .large
+        }
+    }
 }
-
-
-
 
