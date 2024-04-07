@@ -4,6 +4,8 @@ struct HomePage: View {
     @State private var quote: String = ""
     @State private var isAddQuoteDialogPresented = false
     @State private var isAboutDialogPresented = false
+    @State private var filterLengthOption: FilterLength = .all
+    @State private var filterCreatorOption: FilterCreator = .all
     @State private var quotes = [
         "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
         "The way to get started is to quit talking and begin doing. - Walt Disney",
@@ -11,6 +13,49 @@ struct HomePage: View {
         "If life were predictable it would cease to be life, and be without flavor. - Eleanor Roosevelt",
         "Life is what happens when you're busy making other plans. - John Lennon"
     ]
+
+    var filteredQuotes: [String] {
+        var filteredQuotes = quotes
+
+        // Apply length filter
+        if filterLengthOption != .all {
+            filteredQuotes = filteredQuotes.filter { quote in
+                let length = quote.components(separatedBy: " ")[0].count // Get the length of the quote
+                switch filterLengthOption {
+                case .short:
+                    return length <= 10
+                case .medium:
+                    return length > 10 && length <= 30
+                case .large:
+                    return length > 30
+                default:
+                    return true
+                }
+            }
+        }
+
+        // Apply creator filter
+        if filterCreatorOption != .all {
+            filteredQuotes = filteredQuotes.filter { quote in
+                let creator = quote.components(separatedBy: " - ")[1] // Get the creator of the quote
+                switch filterCreatorOption {
+                case .general:
+                    return !creator.contains("poet") && !creator.contains("engineer") && !creator.contains("artist")
+                case .poet:
+                    return creator.contains("poet")
+                case .engineer:
+                    return creator.contains("engineer")
+                case .artist:
+                    return creator.contains("artist")
+                default:
+                    return true
+                }
+            }
+        }
+
+        return filteredQuotes
+    }
+
 
     var body: some View {
         VStack {
@@ -26,6 +71,18 @@ struct HomePage: View {
             Text("Quote Generator")
                 .font(.title)
                 .padding()
+
+            HStack {
+                Text("Filter by Length:")
+                FilterLengthDropdown(option: $filterLengthOption)
+                    .padding()
+            }
+
+            HStack {
+                Text("Filter by Creator:")
+                FilterCreatorDropdown(option: $filterCreatorOption)
+                    .padding()
+            }
 
             Button("Generate Quote") {
                 generateQuote()
@@ -57,8 +114,8 @@ struct HomePage: View {
     }
 
     func generateQuote() {
-        let randomIndex = Int.random(in: 0..<quotes.count)
-        quote = quotes[randomIndex]
+        let randomIndex = Int.random(in: 0..<filteredQuotes.count)
+        quote = filteredQuotes[randomIndex]
     }
 
     func addQuote(quote: String, creator: String) {
@@ -70,6 +127,50 @@ struct HomePage: View {
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         HomePage()
+    }
+}
+
+enum FilterLength {
+    case all
+    case short
+    case medium
+    case large
+}
+
+enum FilterCreator {
+    case all
+    case general
+    case poet
+    case engineer
+    case artist
+}
+
+struct FilterLengthDropdown: View {
+    @Binding var option: FilterLength
+
+    var body: some View {
+        Picker("Length", selection: $option) {
+            Text("All").tag(FilterLength.all)
+            Text("Short").tag(FilterLength.short)
+            Text("Medium").tag(FilterLength.medium)
+            Text("Large").tag(FilterLength.large)
+        }
+        .pickerStyle(MenuPickerStyle())
+    }
+}
+
+struct FilterCreatorDropdown: View {
+    @Binding var option: FilterCreator
+
+    var body: some View {
+        Picker("Creator", selection: $option) {
+            Text("All").tag(FilterCreator.all)
+            Text("General").tag(FilterCreator.general)
+            Text("Poet").tag(FilterCreator.poet)
+            Text("Engineer").tag(FilterCreator.engineer)
+            Text("Artist").tag(FilterCreator.artist)
+        }
+        .pickerStyle(MenuPickerStyle())
     }
 }
 
@@ -98,6 +199,7 @@ struct AddQuoteDialog: View {
     @Binding var isPresented: Bool
     @State private var quote: String = ""
     @State private var creator: String = ""
+    @State private var selectedCreator: FilterCreator = .general // Default selection
 
     let onAddQuote: (String, String) -> Void
 
@@ -115,6 +217,15 @@ struct AddQuoteDialog: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
 
+            Picker("Select Creator Type", selection: $selectedCreator) {
+                Text("General").tag(FilterCreator.general)
+                Text("Poet").tag(FilterCreator.poet)
+                Text("Engineer").tag(FilterCreator.engineer)
+                Text("Artist").tag(FilterCreator.artist)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+
             HStack {
                 Button("Cancel") {
                     isPresented = false
@@ -122,7 +233,8 @@ struct AddQuoteDialog: View {
                 .padding()
 
                 Button("Add Quote") {
-                    onAddQuote(quote, creator)
+                    // Pass the selected creator type when adding the quote
+                    onAddQuote(quote, creator + " - \(selectedCreator)")
                     isPresented = false
                 }
                 .padding()
@@ -131,4 +243,7 @@ struct AddQuoteDialog: View {
         .padding()
     }
 }
+
+
+
 
