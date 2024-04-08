@@ -3,6 +3,28 @@ import SwiftUI
 struct ContentView: View {
     @State private var isButtonTapped = false
 
+    let hoverWords = [
+            "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
+            "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
+            "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
+            "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
+            "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
+            "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
+            "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
+            "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
+            "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
+            "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
+            "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
+            "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
+            "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
+            "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
+            "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
+            "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
+            "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
+            "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
+            "Laughter"
+        ]
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -41,10 +63,31 @@ struct ContentView: View {
                     
                     Spacer() // Pushes the button to the middle
                 }
+                
+                // Overlay with hovering words
+                ForEach(0..<hoverWords.count, id: \.self) { index in
+                    HoveringWord(word: hoverWords[index])
+                }
             }
             .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
             .navigationBarHidden(true) // Hide the navigation bar
         }
+    }
+}
+
+struct HoveringWord: View {
+    let word: String
+    @State private var position = CGPoint(x: CGFloat.random(in: 0..<500), y: CGFloat.random(in: 0..<500))
+
+    var body: some View {
+        Text(word)
+            .font(.system(size: 14))
+            .foregroundColor(.gray)
+            .position(position)
+            .animation(Animation.linear(duration: Double.random(in: 10..<30)).repeatForever(autoreverses: true))
+            .onAppear {
+                self.position = CGPoint(x: CGFloat.random(in: 0..<500), y: CGFloat.random(in: 0..<500))
+            }
     }
 }
 
