@@ -5,44 +5,37 @@ struct ContentView: View {
     @State private var touchedWordIndex: Int?
 
     let hoverWords = [
-        "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
-        "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
-        "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
-        "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
-        "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
-        "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
-        "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
-        "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
-        "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
-        "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
-        "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
-        "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
-        "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
-        "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
-        "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
-        "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
-        "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
-        "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
-        "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
-        "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
-        "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
-        "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
-        "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
-        "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
-        "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
-        "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
-        "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
-        "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
-        "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
-        "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
-        "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
-        "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
-        "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
-        "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
-        "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
-        "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
-        "Laughter"
-    ]
+            "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
+            "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
+            "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
+            "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
+            "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
+            "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
+            "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
+            "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
+            "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
+            "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom", "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope",
+            "Believe", "Adventure", "Persistence", "Ambition", "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism",
+            "Kindness", "Freedom", "Unity", "Resilience", "Peace", "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence",
+            "Harmony", "Kindness", "Transformation", "Simplicity", "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection",
+            "Connection", "Curiosity", "Generosity", "Empathy", "Awareness", "Laughter", "Inspiration", "Creativity", "Motivation", "Wisdom",
+            "Imagination", "Innovation", "Positivity", "Dreams", "Courage", "Hope", "Believe", "Adventure", "Persistence", "Ambition",
+            "Empowerment", "Gratitude", "Happiness", "Success", "Passion", "Optimism", "Kindness", "Freedom", "Unity", "Resilience", "Peace",
+            "Love", "Joy", "Discovery", "Growth", "Balance", "Purpose", "Confidence", "Harmony", "Kindness", "Transformation", "Simplicity",
+            "Gratitude", "Vision", "Strength", "Faith", "Progress", "Reflection", "Connection", "Curiosity", "Generosity", "Empathy", "Awareness",
+            "Laughter"
+        ]
+    
+    @State private var wordPositions: [String: CGPoint] = [:]
+
+    init() {
+        // Initialize wordPositions with random positions within the screen bounds for each word
+        for word in hoverWords {
+            let randomX = CGFloat.random(in: 0..<UIScreen.main.bounds.width)
+            let randomY = CGFloat.random(in: 0..<UIScreen.main.bounds.height)
+            wordPositions[word] = CGPoint(x: randomX, y: randomY)
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -90,13 +83,14 @@ struct ContentView: View {
                     )
                     
                     Spacer() // Pushes the button to the middle
+                    Spacer() // Add spacer to extend background to bottom of screen
                 }
                 
                 // Overlay with hovering words
                 ZStack {
-                    ForEach(0..<hoverWords.count, id: \.self) { index in
-                        HoveringWord(word: hoverWords[index], isTouched: index == touchedWordIndex)
-                            .zIndex(-1) // Set a negative zIndex to ensure words are behind all other elements
+                    ForEach(hoverWords, id: \.self) { word in
+                        HoveringWordView(word: word, isTouched: word == hoverWords[touchedWordIndex ?? 0], position: self.$wordPositions[word])
+                            .zIndex(1) // Set a zIndex to ensure words are in front of all other elements
                             .gesture(
                                 TapGesture().onEnded {
                                     // Handle tap on word
@@ -104,34 +98,48 @@ struct ContentView: View {
                                 }
                             )
                             .simultaneousGesture(
-                                DragGesture().onChanged { _ in
+                                DragGesture().onChanged { gesture in
                                     // Handle drag gesture on word
-                                    touchedWordIndex = index // Update the touched word index
+                                    touchedWordIndex = hoverWords.firstIndex(of: word) // Update the touched word index
+                                    let translation = gesture.translation
+                                    // Update the position of the word
+                                    self.wordPositions[word]?.x += translation.width
+                                    self.wordPositions[word]?.y += translation.height
                                 }
                             )
                     }
                 }
             }
-            .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
+            .background(Color(UIColor(red: 230/255, green: 230/255, blue: 200/255, alpha: 1.0))) // Darker beige background color
             .navigationBarHidden(true) // Hide the navigation bar
         }
     }
 }
 
-struct HoveringWord: View {
+struct HoveringWordView: View {
     let word: String
     let isTouched: Bool
-    @State private var position = CGPoint(x: CGFloat.random(in: 0..<500), y: CGFloat.random(in: 0..<500))
+    @Binding var position: CGPoint?
 
     var body: some View {
         Text(word)
             .font(.system(size: 14))
-            .foregroundColor(isTouched ? .red : .gray) // Change color if touched
-            .position(position)
-            .animation(Animation.linear(duration: Double.random(in: 10..<30)).repeatForever(autoreverses: true))
+            .foregroundColor(randomColor()) // Random color for each word
+            .position(position ?? .zero)
+            .animation(Animation.linear(duration: Double.random(in: 2..<5)).repeatForever(autoreverses: true)) // Faster animation
             .onAppear {
-                self.position = CGPoint(x: CGFloat.random(in: 0..<500), y: CGFloat.random(in: 0..<500))
+                // Position word randomly within the screen bounds
+                let randomX = CGFloat.random(in: 0..<UIScreen.main.bounds.width)
+                let randomY = CGFloat.random(in: 0..<UIScreen.main.bounds.height)
+                self.position = CGPoint(x: randomX, y: randomY)
             }
+    }
+    
+    func randomColor() -> Color {
+        let red = Double.random(in: 0..<1)
+        let green = Double.random(in: 0..<1)
+        let blue = Double.random(in: 0..<1)
+        return Color(red: red, green: green, blue: blue)
     }
 }
 
