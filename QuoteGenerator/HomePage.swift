@@ -36,6 +36,7 @@ struct HomePage: View {
         Quote(text: "If life were predictable it would cease to be life, and be without flavor.", creator: .artist),
         Quote(text: "Life is what happens when you're busy making other plans.", creator: .artist)
     ]
+    @State private var errorMessage: String?
 
     var filteredQuotes: [Quote] {
         var filtered = quotes
@@ -107,6 +108,13 @@ struct HomePage: View {
                     .padding()
             }
 
+            // Error message display
+            if let errorMessage = errorMessage {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+                    .padding()
+            }
+
             Spacer()
 
             HStack {
@@ -133,11 +141,19 @@ struct HomePage: View {
         guard !filteredQuotes.isEmpty else {
             // Handle the case where filteredQuotes is empty
             // For example, you can display an alert or disable the "Generate Quote" button
+            errorMessage = "No quotes available for the selected criteria."
             return
         }
         
         let randomIndex = Int.random(in: 0..<filteredQuotes.count)
         quote = filteredQuotes[randomIndex]
+        
+        // Check if there is only one quote available
+        if filteredQuotes.count == 1 {
+            errorMessage = "There is only one quote. Add more quotes."
+        } else {
+            errorMessage = nil
+        }
     }
 
     func addQuote(quote: String, creator: FilterCreator, lengthCategory: FilterLength) {
