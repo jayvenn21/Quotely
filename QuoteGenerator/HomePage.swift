@@ -14,6 +14,7 @@ enum FilterCreator {
     case poet
     case engineer
     case artist
+    case uncategorized // Added uncategorized case
 }
 
 // Define Quote struct
@@ -99,7 +100,7 @@ struct HomePage: View {
             .padding()
 
             if let quote = quote {
-                Text("\"\(quote.text)\" - \(quote.creator)")
+                Text("\"\(quote.text)\" - \(creatorName(for: quote.creator))")
                     .padding()
             } else {
                 Text("No quote generated")
@@ -143,6 +144,21 @@ struct HomePage: View {
         let newQuote = Quote(text: quote, creator: creator)
         quotes.append(newQuote)
     }
+
+    func creatorName(for creator: FilterCreator) -> String {
+        switch creator {
+        case .all:
+            return "Unknown"
+        case .poet:
+            return "A Random Poet"
+        case .engineer:
+            return "A Random Engineer"
+        case .artist:
+            return "A Random Artist"
+        case .uncategorized: // Updated to handle uncategorized case
+            return "Uncategorized"
+        }
+    }
 }
 
 struct FilterLengthDropdown: View {
@@ -168,7 +184,7 @@ struct FilterCreatorDropdown: View {
             Text("Poet").tag(FilterCreator.poet)
             Text("Engineer").tag(FilterCreator.engineer)
             Text("Artist").tag(FilterCreator.artist)
-            Text("Uncategorized").tag(FilterCreator.all) // Changed the tag to .all
+            Text("Uncategorized").tag(FilterCreator.uncategorized) // Changed the tag to .uncategorized
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -216,7 +232,7 @@ struct AddQuoteDialog: View {
                 Text("Poet").tag(FilterCreator.poet)
                 Text("Engineer").tag(FilterCreator.engineer)
                 Text("Artist").tag(FilterCreator.artist)
-                Text("Uncategorized").tag(FilterCreator.all)
+                Text("Uncategorized").tag(FilterCreator.uncategorized)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
