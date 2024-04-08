@@ -1,62 +1,49 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var position = CGPoint(x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
-                                          y: CGFloat.random(in: 0...UIScreen.main.bounds.height)) // Random initial position of the object
-    @State private var velocity = CGVector(dx: 5, dy: 2) // Initial velocity of the object
-    let objectSize: CGFloat = 50 // Size of the object
-    let animationDuration: Double = 0.02 // Animation duration
+    @State private var isButtonTapped = false
 
     var body: some View {
         NavigationView {
             ZStack {
                 // Background with moving objects
-                Color.white // Background color
+                Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0)) // Beige background color
                 
-                Circle()
-                    .foregroundColor(.blue)
-                    .frame(width: objectSize, height: objectSize)
-                    .position(position)
-                    .animation(nil) // Disable animation for the background object
-                    .onAppear {
-                        self.startAnimation() // Start animation when view appears
-                    }
-
                 VStack {
                     Spacer() // Pushes the text to the middle
                     Text("Quote Generator")
-                        .font(.title)
+                        .font(.custom("Helvetica-Bold", size: 28)) // Cool font for the title
+                        .foregroundColor(.blue) // Blue color for the title text
                         .padding()
-
-                    NavigationLink(destination: HomePage()) {
-                        Text("Open Quote Generator")
-                            .padding()
+                        .scaleEffect(isButtonTapped ? 1.2 : 1) // Scale animation when button is tapped
+                        .animation(.easeInOut(duration: 0.3), value: isButtonTapped) // Animation modifier with value
+                        // Indicates that animation should only occur when the value of isButtonTapped changes
+                    
+                    NavigationLink(destination: HomePage(), isActive: $isButtonTapped) {
+                        EmptyView()
                     }
-
+                    .hidden() // Hide the navigation link label
+                    
+                    Button(action: {
+                        withAnimation {
+                            isButtonTapped.toggle()
+                        }
+                    }) {
+                        Text("Open Quote Generator")
+                            .font(.custom("Helvetica", size: 18)) // Cool font for the button
+                            .foregroundColor(.green) // Green color for the button text
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10) // Rounded button corners
+                            .shadow(radius: 5) // Button shadow effect
+                            .scaleEffect(isButtonTapped ? 0.95 : 1) // Scale animation when button is tapped
+                    }
+                    
                     Spacer() // Pushes the button to the middle
                 }
             }
-        }
-    }
-
-    // Function to start animation
-    func startAnimation() {
-        withAnimation(Animation.linear(duration: animationDuration).repeatForever()) {
-            self.updatePosition() // Update position continuously
-        }
-    }
-
-    // Function to update position
-    func updatePosition() {
-        position.x += velocity.dx
-        position.y += velocity.dy
-
-        // Bounce off the walls
-        if position.x <= 0 || position.x >= UIScreen.main.bounds.width - objectSize {
-            velocity.dx = -velocity.dx
-        }
-        if position.y <= 0 || position.y >= UIScreen.main.bounds.height - objectSize {
-            velocity.dy = -velocity.dy
+            .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
+            .navigationBarHidden(true) // Hide the navigation bar
         }
     }
 }

@@ -68,17 +68,22 @@ struct HomePage: View {
             }
 
             Text("Quote Generator")
-                .font(.title)
+                .font(.custom("Helvetica-Bold", size: 28)) // Cool font for the title
+                .foregroundColor(.blue) // Blue color for the title text
                 .padding()
 
             HStack {
                 Text("Filter by Length:")
+                    .font(.custom("Helvetica", size: 18)) // Cool font for the label
+                    .foregroundColor(.green) // Green color for the label text
                 FilterLengthDropdown(option: $filterLengthOption)
                     .padding()
             }
 
             HStack {
                 Text("Filter by Creator:")
+                    .font(.custom("Helvetica", size: 18)) // Cool font for the label
+                    .foregroundColor(.green) // Green color for the label text
                 FilterCreatorDropdown(option: $filterCreatorOption)
                     .padding()
             }
@@ -86,6 +91,8 @@ struct HomePage: View {
             Button("Generate Quote") {
                 generateQuote()
             }
+            .font(.custom("Helvetica", size: 18)) // Cool font for the button
+            .foregroundColor(.green) // Green color for the button text
             .padding()
 
             TextEditor(text: $quote)
@@ -99,9 +106,12 @@ struct HomePage: View {
                 Button("Add Quote") {
                     isAddQuoteDialogPresented = true
                 }
+                .font(.custom("Helvetica", size: 18)) // Cool font for the button
+                .foregroundColor(.green) // Green color for the button text
                 .padding()
             }
         }
+        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
         .sheet(isPresented: $isAddQuoteDialogPresented) {
             AddQuoteDialog(isPresented: $isAddQuoteDialogPresented) { quote, creator, lengthCategory in
                 addQuote(quote: quote, creator: creator, lengthCategory: lengthCategory)
