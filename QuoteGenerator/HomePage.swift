@@ -21,6 +21,7 @@ enum FilterCreator {
 struct Quote {
     let text: String
     let creator: FilterCreator
+    let creatorName: String // Added creator's name
 }
 
 struct HomePage: View {
@@ -30,11 +31,11 @@ struct HomePage: View {
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
     @State private var quotes = [
-        Quote(text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", creator: .poet),
-        Quote(text: "The way to get started is to quit talking and begin doing.", creator: .engineer),
-        Quote(text: "Your time is limited, don't waste it living someone else's life.", creator: .engineer),
-        Quote(text: "If life were predictable it would cease to be life, and be without flavor.", creator: .artist),
-        Quote(text: "Life is what happens when you're busy making other plans.", creator: .artist)
+        Quote(text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", creator: .poet, creatorName: "Nelson Mandela"),
+        Quote(text: "The way to get started is to quit talking and begin doing.", creator: .engineer, creatorName: "Walt Disney"),
+        Quote(text: "Your time is limited, don't waste it living someone else's life.", creator: .engineer, creatorName: "Steve Jobs"),
+        Quote(text: "If life were predictable it would cease to be life, and be without flavor.", creator: .artist, creatorName: "Eleanor Roosevelt"),
+        Quote(text: "Life is what happens when you're busy making other plans.", creator: .artist, creatorName: "John Lennon")
     ]
     @State private var errorMessage: String?
 
@@ -101,7 +102,7 @@ struct HomePage: View {
             .padding()
 
             if let quote = quote {
-                Text("\"\(quote.text)\" - \(creatorName(for: quote.creator))")
+                Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
                     .padding()
             } else {
                 Text("No Quote Generated")
@@ -128,8 +129,8 @@ struct HomePage: View {
         }
         .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
         .sheet(isPresented: $isAddQuoteDialogPresented) {
-            AddQuoteDialog(isPresented: $isAddQuoteDialogPresented) { quote, creator, lengthCategory in
-                addQuote(quote: quote, creator: creator, lengthCategory: lengthCategory)
+            AddQuoteDialog(isPresented: $isAddQuoteDialogPresented) { quote, creator, lengthCategory, creatorName in
+                addQuote(quote: quote, creator: creator, lengthCategory: lengthCategory, creatorName: creatorName)
             }
         }
         .sheet(isPresented: $isAboutDialogPresented) {
@@ -156,24 +157,9 @@ struct HomePage: View {
         }
     }
 
-    func addQuote(quote: String, creator: FilterCreator, lengthCategory: FilterLength) {
-        let newQuote = Quote(text: quote, creator: creator)
+    func addQuote(quote: String, creator: FilterCreator, lengthCategory: FilterLength, creatorName: String) {
+        let newQuote = Quote(text: quote, creator: creator, creatorName: creatorName)
         quotes.append(newQuote)
-    }
-
-    func creatorName(for creator: FilterCreator) -> String {
-        switch creator {
-        case .all:
-            return "Unknown"
-        case .poet:
-            return "A Random Poet"
-        case .engineer:
-            return "A Random Engineer"
-        case .artist:
-            return "A Random Artist"
-        case .other: // Updated to handle other cases
-            return "Other"
-        }
     }
 }
 
@@ -244,14 +230,13 @@ struct AboutDialog: View {
     }
 }
 
-
-
 struct AddQuoteDialog: View {
     @Binding var isPresented: Bool
     @State private var quote: String = ""
     @State private var creator: FilterCreator = .all // Default selection
+    @State private var creatorName: String = "" // New state variable for creator's name
 
-    let onAddQuote: (String, FilterCreator, FilterLength) -> Void
+    let onAddQuote: (String, FilterCreator, FilterLength, String) -> Void // Updated closure
 
     var body: some View {
         ZStack {
@@ -264,6 +249,12 @@ struct AddQuoteDialog: View {
                     .padding()
 
                 TextField("Enter Quote", text: $quote)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .font(.system(size: 16)) // Apple San Francisco font for the text field
+                    .foregroundColor(.black) // Black color for the text field text
+
+                TextField("Enter Creator Name", text: $creatorName) // New text input for creator's name
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                     .font(.system(size: 16)) // Apple San Francisco font for the text field
@@ -288,7 +279,7 @@ struct AddQuoteDialog: View {
 
                     Button("Add Quote") {
                         let lengthCategory: FilterLength = determineLengthCategory(quote: quote)
-                        onAddQuote(quote, creator, lengthCategory)
+                        onAddQuote(quote, creator, lengthCategory, creatorName) // Pass creatorName to closure
                         isPresented = false
                     }
                     .padding()
@@ -315,5 +306,4 @@ struct AddQuoteDialog: View {
         }
     }
 }
-
 
