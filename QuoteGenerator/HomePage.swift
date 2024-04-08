@@ -210,33 +210,40 @@ struct AboutDialog: View {
     @Binding var isPresented: Bool
 
     var body: some View {
-        VStack {
-            Text("About")
-                .font(.title)
-                .padding()
+        ZStack {
+            Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0)) // Normal beige background
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Text("About")
+                    .font(.title)
+                    .padding()
 
-            Text("This app generates random quotes based on two categories: the length of the quote and the type of creator.")
-                .padding()
+                Text("This app generates random quotes based on two categories: the length of the quote and the type of creator.")
+                    .padding()
 
-            Text("There are already some predefined quotes available for you to test out. Also, you can add your own quotes using the 'Add Quote' button. Enjoy!")
-                .padding()
+                Text("There are already some predefined quotes available for you to test out. Also, you can add your own quotes using the 'Add Quote' button. Enjoy!")
+                    .padding()
 
-            Text("- Jayanth Vennamreddy")
-                .italic()
-                .padding()
+                Text("Jayanth Vennamreddy")
+                    .italic()
+                    .padding()
 
-            Button("Close") {
-                isPresented = false
+                Button("Close") {
+                    isPresented = false
+                }
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.green)
+                .cornerRadius(8)
             }
             .padding()
-            .foregroundColor(.white)
-            .background(Color.green)
-            .cornerRadius(8)
+            .background(Color(UIColor(red: 235/255, green: 235/255, blue: 210/255, alpha: 1.0))) // Darker beige background
+            .cornerRadius(10)
         }
-        .padding()
-        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
     }
 }
+
 
 
 struct AddQuoteDialog: View {
@@ -247,46 +254,52 @@ struct AddQuoteDialog: View {
     let onAddQuote: (String, FilterCreator, FilterLength) -> Void
 
     var body: some View {
-        VStack {
-            Text("Add Quote")
-                .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
+        ZStack {
+            Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0)) // Normal beige background
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Text("Add Quote")
+                    .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
+                    .padding()
+
+                TextField("Enter Quote", text: $quote)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .font(.system(size: 16)) // Apple San Francisco font for the text field
+                    .foregroundColor(.black) // Black color for the text field text
+
+                Picker("Select Creator Type", selection: $creator) {
+                    Text("Poet").tag(FilterCreator.poet)
+                    Text("Engineer").tag(FilterCreator.engineer)
+                    Text("Artist").tag(FilterCreator.artist)
+                    Text("Other").tag(FilterCreator.other)
+                }
+                .pickerStyle(SegmentedPickerStyle())
                 .padding()
 
-            TextField("Enter Quote", text: $quote)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .font(.system(size: 16)) // Apple San Francisco font for the text field
-                .foregroundColor(.black) // Black color for the text field text
+                HStack {
+                    Button("Cancel") {
+                        isPresented = false
+                    }
+                    .padding()
+                    .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
+                    .foregroundColor(.red) // Red color for the button text
 
-            Picker("Select Creator Type", selection: $creator) {
-                Text("Poet").tag(FilterCreator.poet)
-                Text("Engineer").tag(FilterCreator.engineer)
-                Text("Artist").tag(FilterCreator.artist)
-                Text("Other").tag(FilterCreator.other)
+                    Button("Add Quote") {
+                        let lengthCategory: FilterLength = determineLengthCategory(quote: quote)
+                        onAddQuote(quote, creator, lengthCategory)
+                        isPresented = false
+                    }
+                    .padding()
+                    .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
+                    .foregroundColor(.green) // Green color for the button text
+                }
             }
-            .pickerStyle(SegmentedPickerStyle())
             .padding()
-
-            HStack {
-                Button("Cancel") {
-                    isPresented = false
-                }
-                .padding()
-                .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
-                .foregroundColor(.red) // Red color for the button text
-
-                Button("Add Quote") {
-                    let lengthCategory: FilterLength = determineLengthCategory(quote: quote)
-                    onAddQuote(quote, creator, lengthCategory)
-                    isPresented = false
-                }
-                .padding()
-                .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
-                .foregroundColor(.green) // Green color for the button text
-            }
+            .background(Color(UIColor(red: 235/255, green: 235/255, blue: 210/255, alpha: 1.0))) // Darker beige background
+            .cornerRadius(10)
         }
-        .padding()
-        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
     }
 
     // Function to determine the length category of the quote
@@ -302,4 +315,5 @@ struct AddQuoteDialog: View {
         }
     }
 }
+
 
