@@ -48,7 +48,7 @@ struct ContentView: View {
                     // Surrounding background for title text and button
                     VStack {
                         Text("Quote Generator")
-                            .font(.custom("Helvetica-Bold", size: 28)) // Cool font for the title
+                            .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
                             .foregroundColor(.blue) // Blue color for the title text
                             .padding()
                             .scaleEffect(isButtonTapped ? 1.2 : 1) // Scale animation when button is tapped
@@ -65,7 +65,7 @@ struct ContentView: View {
                             }
                         }) {
                             Text("Open Quote Generator")
-                                .font(.custom("Helvetica", size: 18)) // Cool font for the button
+                                .font(.system(size: 18)) // Apple San Francisco font for the button
                                 .foregroundColor(.green) // Green color for the button text
                                 .padding()
                                 .background(Color.white)
@@ -123,7 +123,7 @@ struct HoveringWordView: View {
 
     var body: some View {
         Text(word)
-            .font(.system(size: 14))
+            .font(.system(size: 14)) // Apple San Francisco font
             .foregroundColor(randomColor()) // Random color for each word
             .position(position ?? .zero)
             .animation(Animation.linear(duration: Double.random(in: 2..<5)).repeatForever(autoreverses: true)) // Faster animation

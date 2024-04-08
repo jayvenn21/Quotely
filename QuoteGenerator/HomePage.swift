@@ -73,13 +73,13 @@ struct HomePage: View {
             }
 
             Text("Quote Generator")
-                .font(.custom("Helvetica-Bold", size: 28)) // Cool font for the title
+                .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
                 .foregroundColor(.blue) // Blue color for the title text
                 .padding()
 
             HStack {
                 Text("Filter by Length:")
-                    .font(.custom("Helvetica", size: 18)) // Cool font for the label
+                    .font(.system(size: 18)) // Apple San Francisco font for the label
                     .foregroundColor(.green) // Green color for the label text
                 FilterLengthDropdown(option: $filterLengthOption)
                     .padding()
@@ -87,7 +87,7 @@ struct HomePage: View {
 
             HStack {
                 Text("Filter by Creator:")
-                    .font(.custom("Helvetica", size: 18)) // Cool font for the label
+                    .font(.system(size: 18)) // Apple San Francisco font for the label
                     .foregroundColor(.green) // Green color for the label text
                 FilterCreatorDropdown(option: $filterCreatorOption)
                     .padding()
@@ -96,7 +96,7 @@ struct HomePage: View {
             Button("Generate Quote") {
                 generateQuote()
             }
-            .font(.custom("Helvetica", size: 18)) // Cool font for the button
+            .font(.system(size: 18)) // Apple San Francisco font for the button
             .foregroundColor(.green) // Green color for the button text
             .padding()
 
@@ -121,7 +121,7 @@ struct HomePage: View {
                 Button("Add Quote") {
                     isAddQuoteDialogPresented = true
                 }
-                .font(.custom("Helvetica", size: 18)) // Cool font for the button
+                .font(.system(size: 18)) // Apple San Francisco font for the button
                 .foregroundColor(.green) // Green color for the button text
                 .padding()
             }
@@ -237,12 +237,14 @@ struct AddQuoteDialog: View {
     var body: some View {
         VStack {
             Text("Add Quote")
-                .font(.title)
+                .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
                 .padding()
 
             TextField("Enter Quote", text: $quote)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
+                .font(.system(size: 16)) // Apple San Francisco font for the text field
+                .foregroundColor(.black) // Black color for the text field text
 
             Picker("Select Creator Type", selection: $creator) {
                 Text("Poet").tag(FilterCreator.poet)
@@ -258,6 +260,8 @@ struct AddQuoteDialog: View {
                     isPresented = false
                 }
                 .padding()
+                .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
+                .foregroundColor(.red) // Red color for the button text
 
                 Button("Add Quote") {
                     let lengthCategory: FilterLength = determineLengthCategory(quote: quote)
@@ -265,9 +269,12 @@ struct AddQuoteDialog: View {
                     isPresented = false
                 }
                 .padding()
+                .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
+                .foregroundColor(.green) // Green color for the button text
             }
         }
         .padding()
+        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
     }
 
     // Function to determine the length category of the quote
