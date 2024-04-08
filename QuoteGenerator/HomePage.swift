@@ -14,7 +14,7 @@ enum FilterCreator {
     case poet
     case engineer
     case artist
-    case uncategorized // Added uncategorized case
+    case other // Renamed from uncategorized
 }
 
 // Define Quote struct
@@ -104,7 +104,7 @@ struct HomePage: View {
                 Text("\"\(quote.text)\" - \(creatorName(for: quote.creator))")
                     .padding()
             } else {
-                Text("No quote generated")
+                Text("No Quote Generated")
                     .padding()
             }
 
@@ -171,8 +171,8 @@ struct HomePage: View {
             return "A Random Engineer"
         case .artist:
             return "A Random Artist"
-        case .uncategorized: // Updated to handle uncategorized case
-            return "Uncategorized"
+        case .other: // Updated to handle other cases
+            return "Other"
         }
     }
 }
@@ -200,7 +200,7 @@ struct FilterCreatorDropdown: View {
             Text("Poet").tag(FilterCreator.poet)
             Text("Engineer").tag(FilterCreator.engineer)
             Text("Artist").tag(FilterCreator.artist)
-            Text("Uncategorized").tag(FilterCreator.uncategorized) // Changed the tag to .uncategorized
+            Text("Other").tag(FilterCreator.other) // Changed the tag to .other
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -215,17 +215,29 @@ struct AboutDialog: View {
                 .font(.title)
                 .padding()
 
-            Text("This app generates random quotes. You can add your own quotes using the 'Add Quote' button.")
+            Text("This app generates random quotes based on two categories: the length of the quote and the type of creator.")
+                .padding()
+
+            Text("There are already some predefined quotes available for you to test out. Also, you can add your own quotes using the 'Add Quote' button. Enjoy!")
+                .padding()
+
+            Text("- Jayanth Vennamreddy")
+                .italic()
                 .padding()
 
             Button("Close") {
                 isPresented = false
             }
             .padding()
+            .foregroundColor(.white)
+            .background(Color.green)
+            .cornerRadius(8)
         }
         .padding()
+        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
     }
 }
+
 
 struct AddQuoteDialog: View {
     @Binding var isPresented: Bool
@@ -250,7 +262,7 @@ struct AddQuoteDialog: View {
                 Text("Poet").tag(FilterCreator.poet)
                 Text("Engineer").tag(FilterCreator.engineer)
                 Text("Artist").tag(FilterCreator.artist)
-                Text("Uncategorized").tag(FilterCreator.uncategorized)
+                Text("Other").tag(FilterCreator.other)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
