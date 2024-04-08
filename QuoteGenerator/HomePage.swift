@@ -1,59 +1,53 @@
 import SwiftUI
 
+// Define FilterLength enum
+enum FilterLength {
+    case all
+    case short
+    case medium
+    case large
+}
+
+// Define FilterCreator enum
+enum FilterCreator {
+    case all
+    case general
+    case poet
+    case engineer
+    case artist
+}
+
+// Define Quote struct
+struct Quote {
+    let text: String
+    let creator: String
+}
+
 struct HomePage: View {
-    @State private var quote: String = ""
+    @State private var quote: Quote?
     @State private var isAddQuoteDialogPresented = false
     @State private var isAboutDialogPresented = false
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
     @State private var quotes = [
-        "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
-        "The way to get started is to quit talking and begin doing. - Walt Disney",
-        "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
-        "If life were predictable it would cease to be life, and be without flavor. - Eleanor Roosevelt",
-        "Life is what happens when you're busy making other plans. - John Lennon"
+        Quote(text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", creator: "Nelson Mandela"),
+        Quote(text: "The way to get started is to quit talking and begin doing.", creator: "Walt Disney"),
+        Quote(text: "Your time is limited, don't waste it living someone else's life.", creator: "Steve Jobs"),
+        Quote(text: "If life were predictable it would cease to be life, and be without flavor.", creator: "Eleanor Roosevelt"),
+        Quote(text: "Life is what happens when you're busy making other plans.", creator: "John Lennon")
     ]
 
-    var filteredQuotes: [String] {
-        var filteredQuotes = quotes
-
-        // Apply length filter
-        if filterLengthOption != .all {
-            filteredQuotes = filteredQuotes.filter { quote in
-                let length = quote.components(separatedBy: " ")[0].count // Get the length of the quote
-                switch filterLengthOption {
-                case .short:
-                    return length <= 10
-                case .medium:
-                    return length > 10 && length <= 30
-                case .large:
-                    return length > 30
-                default:
-                    return true
-                }
-            }
+    var filteredQuotes: [Quote] {
+        switch filterLengthOption {
+        case .all:
+            return filterQuotesByCreator(filterCreatorOption)
+        case .short:
+            return filterQuotesByLength(.short)
+        case .medium:
+            return filterQuotesByLength(.medium)
+        case .large:
+            return filterQuotesByLength(.large)
         }
-
-        // Apply creator filter
-        if filterCreatorOption != .all {
-            filteredQuotes = filteredQuotes.filter { quote in
-                let creator = quote.components(separatedBy: " - ")[1] // Get the creator of the quote
-                switch filterCreatorOption {
-                case .general:
-                    return !creator.contains("poet") && !creator.contains("engineer") && !creator.contains("artist")
-                case .poet:
-                    return creator.contains("poet")
-                case .engineer:
-                    return creator.contains("engineer")
-                case .artist:
-                    return creator.contains("artist")
-                default:
-                    return true
-                }
-            }
-        }
-
-        return filteredQuotes
     }
 
     var body: some View {
@@ -95,10 +89,13 @@ struct HomePage: View {
             .foregroundColor(.green) // Green color for the button text
             .padding()
 
-            TextEditor(text: $quote)
-                .frame(height: 200)
-                .padding()
-                .disabled(true) // Disable editing
+            if let quote = quote {
+                Text("\"\(quote.text)\" - \(quote.creator)")
+                    .padding()
+            } else {
+                Text("No quote generated")
+                    .padding()
+            }
 
             Spacer()
 
@@ -133,32 +130,38 @@ struct HomePage: View {
         quote = filteredQuotes[randomIndex]
     }
 
-
     func addQuote(quote: String, creator: String, lengthCategory: FilterLength) {
-        let formattedQuote = "\(quote) - \(creator)"
-        quotes.append(formattedQuote)
+        let newQuote = Quote(text: quote, creator: creator)
+        quotes.append(newQuote)
     }
-}
 
-struct HomePage_Previews: PreviewProvider {
-    static var previews: some View {
-        HomePage()
+    private func filterQuotesByCreator(_ creator: FilterCreator) -> [Quote] {
+        switch creator {
+        case .all:
+            return quotes
+        case .general:
+            return quotes.filter { $0.creator == "General" }
+        case .poet:
+            return quotes.filter { $0.creator == "Poet" }
+        case .engineer:
+            return quotes.filter { $0.creator == "Engineer" }
+        case .artist:
+            return quotes.filter { $0.creator == "Artist" }
+        }
     }
-}
 
-enum FilterLength {
-    case all
-    case short
-    case medium
-    case large
-}
-
-enum FilterCreator {
-    case all
-    case general
-    case poet
-    case engineer
-    case artist
+    private func filterQuotesByLength(_ length: FilterLength) -> [Quote] {
+        switch length {
+        case .all:
+            return quotes
+        case .short:
+            return quotes.filter { $0.text.count <= 20 }
+        case .medium:
+            return quotes.filter { $0.text.count > 20 && $0.text.count <= 50 }
+        case .large:
+            return quotes.filter { $0.text.count > 50 }
+        }
+    }
 }
 
 struct FilterLengthDropdown: View {
@@ -185,6 +188,7 @@ struct FilterCreatorDropdown: View {
             Text("Poet").tag(FilterCreator.poet)
             Text("Engineer").tag(FilterCreator.engineer)
             Text("Artist").tag(FilterCreator.artist)
+            Text("Uncategorized").tag(FilterCreator.all) // Changed the tag to .all
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -238,6 +242,7 @@ struct AddQuoteDialog: View {
                 Text("Poet").tag(FilterCreator.poet)
                 Text("Engineer").tag(FilterCreator.engineer)
                 Text("Artist").tag(FilterCreator.artist)
+                Text("Uncategorized").tag(FilterCreator.all) // Changed the tag to .all
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
@@ -258,7 +263,7 @@ struct AddQuoteDialog: View {
         }
         .padding()
     }
-    
+
     // Function to determine the length category of the quote
     func determineLengthCategory(quote: String) -> FilterLength {
         let length = quote.components(separatedBy: " ")[0].count
