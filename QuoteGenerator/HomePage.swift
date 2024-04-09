@@ -1,5 +1,5 @@
 import SwiftUI
-import MessageUI
+
 // Define FilterLength enum
 enum FilterLength {
     case all
@@ -28,7 +28,6 @@ struct HomePage: View {
     @State private var quote: Quote?
     @State private var isAddQuoteDialogPresented = false
     @State private var isAboutDialogPresented = false
-    @State private var isShareSheetPresented = false // New state for share sheet
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
     @State private var quotes = [
@@ -119,23 +118,21 @@ struct HomePage: View {
 
             Spacer()
 
-            HStack {
-                Button("Add Quote") {
-                    isAddQuoteDialogPresented = true
-                }
-                .font(.system(size: 18)) // Apple San Francisco font for the button
-                .foregroundColor(.green) // Green color for the button text
-                .padding()
-                
-                Button("Share") {
-                    isShareSheetPresented = true
-                }
-                .font(.system(size: 18)) // Apple San Francisco font for the button
-                .foregroundColor(.green) // Green color for the button text
-                .padding()
-                .sheet(isPresented: $isShareSheetPresented) {
-                    ShareSheet(quote: quote ?? Quote(text: "", creator: .all, creatorName: ""))
-                }
+            Button("Add Quote") {
+                isAddQuoteDialogPresented = true
+            }
+            .font(.system(size: 18)) // Apple San Francisco font for the button
+            .foregroundColor(.green) // Green color for the button text
+            .padding()
+
+            Button("Share Quote") {
+                shareQuote()
+            }
+            .font(.system(size: 18)) // Apple San Francisco font for the button
+            .foregroundColor(.green) // Green color for the button text
+            .padding()
+            .sheet(isPresented: $isAboutDialogPresented) {
+                AboutDialog(isPresented: $isAboutDialogPresented)
             }
         }
         .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
@@ -143,9 +140,6 @@ struct HomePage: View {
             AddQuoteDialog(isPresented: $isAddQuoteDialogPresented) { quote, creator, lengthCategory, creatorName in
                 addQuote(quote: quote, creator: creator, lengthCategory: lengthCategory, creatorName: creatorName)
             }
-        }
-        .sheet(isPresented: $isAboutDialogPresented) {
-            AboutDialog(isPresented: $isAboutDialogPresented)
         }
     }
 
@@ -172,6 +166,39 @@ struct HomePage: View {
         let newQuote = Quote(text: quote, creator: creator, creatorName: creatorName)
         quotes.append(newQuote)
     }
+    
+    func shareQuote() {
+        guard let quote = quote else {
+            // Display a popup message when there is no quote generated
+            errorMessage = "You first need to generate a quote!"
+            return
+        }
+        
+        // Format the quote to include the text and creator's name
+        let textToShare = "\"\(quote.text)\" - \(quote.creatorName)"
+        
+        // Create an array of activity items to share
+        let activityItems: [Any] = [textToShare]
+        
+        // Create an array of application activities
+        let applicationActivities: [UIActivity]? = nil
+        
+        // Get the key window scene
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            // Access the windows property from the window scene
+            if let keyWindow = windowScene.windows.first {
+                // Create a UIActivityViewController with the activity items and application activities
+                let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
+                
+                // Exclude some activities from the list (optional)
+                activityViewController.excludedActivityTypes = [.addToReadingList, .openInIBooks, .markupAsPDF]
+                
+                // Present the UIActivityViewController
+                keyWindow.rootViewController?.present(activityViewController, animated: true, completion: nil)
+            }
+        }
+    }
+
 }
 
 struct FilterLengthDropdown: View {
@@ -318,65 +345,6 @@ struct AddQuoteDialog: View {
     }
 }
 
-struct ShareSheet: View {
-    let quote: Quote
-
-    var body: some View {
-        VStack {
-            Text("Share Quote")
-                .font(.title)
-                .padding()
-
-            if quote.text.isEmpty {
-                Text("You first need to have a quote in the textbox!")
-                    .foregroundColor(.red)
-                    .padding()
-            } else {
-                Text("\"\(quote.text)\" - \(quote.creatorName)")
-                    .padding()
-
-                Button("Share via Messages") {
-                    // Share via Messages implementation
-                }
-                .buttonStyle(ShareButtonStyle())
-
-                Button("Share via Email") {
-                    // Share via Email implementation
-                }
-                .buttonStyle(ShareButtonStyle())
-
-                // Add more sharing options as needed...
-
-                Button("Cancel") {
-                    // Dismiss the share sheet
-                }
-                .buttonStyle(CancelButtonStyle())
-            }
-        }
-        .padding()
-        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0)))
-        .cornerRadius(10)
-    }
-}
-
-// Custom button style for share buttons
-struct ShareButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding()
-            .foregroundColor(.green)
-            .background(Color.white)
-            .cornerRadius(8)
-            .padding(.horizontal, 10) // Adjusted horizontal padding
-            .padding(.vertical, 5) // Adjusted vertical padding
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.green, lineWidth: 2)
-                    .padding(1) // Added padding to ensure the stroke aligns perfectly with the button edges
-            )
-    }
-}
-
 // Custom button style for cancel button
 struct CancelButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -394,7 +362,4 @@ struct CancelButtonStyle: ButtonStyle {
             )
     }
 }
-
-
-
 
