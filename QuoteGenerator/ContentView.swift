@@ -48,7 +48,7 @@ struct ContentView: View {
                     // Surrounding background for title text and button
                     VStack {
                         Text("Quotely")
-                            .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
+                            .font(.system(size: 48, weight: .bold)) // Apple San Francisco font for the title
                             .foregroundColor(.blue) // Blue color for the title text
                             .padding()
                             .scaleEffect(isButtonTapped ? 1.2 : 1) // Scale animation when button is tapped
@@ -65,7 +65,7 @@ struct ContentView: View {
                             }
                         }) {
                             Text("Open Quotely")
-                                .font(.system(size: 18)) // Apple San Francisco font for the button
+                                .font(.system(size: 24)) // Apple San Francisco font for the button
                                 .foregroundColor(.green) // Green color for the button text
                                 .padding()
                                 .background(Color.white)
