@@ -47,7 +47,7 @@ struct ContentView: View {
                     Spacer() // Pushes the text to the middle
                     // Surrounding background for title text and button
                     VStack {
-                        Text("Quote Generator")
+                        Text("Quotely")
                             .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
                             .foregroundColor(.blue) // Blue color for the title text
                             .padding()
@@ -64,7 +64,7 @@ struct ContentView: View {
                                 isButtonTapped.toggle()
                             }
                         }) {
-                            Text("Open Quote Generator")
+                            Text("Open Quotely")
                                 .font(.system(size: 18)) // Apple San Francisco font for the button
                                 .foregroundColor(.green) // Green color for the button text
                                 .padding()

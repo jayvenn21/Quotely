@@ -1,5 +1,5 @@
 import SwiftUI
-
+import MessageUI
 // Define FilterLength enum
 enum FilterLength {
     case all
@@ -28,6 +28,7 @@ struct HomePage: View {
     @State private var quote: Quote?
     @State private var isAddQuoteDialogPresented = false
     @State private var isAboutDialogPresented = false
+    @State private var isShareSheetPresented = false // New state for share sheet
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
     @State private var quotes = [
@@ -125,6 +126,16 @@ struct HomePage: View {
                 .font(.system(size: 18)) // Apple San Francisco font for the button
                 .foregroundColor(.green) // Green color for the button text
                 .padding()
+                
+                Button("Share") {
+                    isShareSheetPresented = true
+                }
+                .font(.system(size: 18)) // Apple San Francisco font for the button
+                .foregroundColor(.green) // Green color for the button text
+                .padding()
+                .sheet(isPresented: $isShareSheetPresented) {
+                    ShareSheet(quote: quote ?? Quote(text: "", creator: .all, creatorName: ""))
+                }
             }
         }
         .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
@@ -201,11 +212,11 @@ struct AboutDialog: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Text("About")
+                Text("About Quotely")
                     .font(.title)
                     .padding()
 
-                Text("This app generates random quotes based on two categories: the length of the quote and the type of creator.")
+                Text("Welcome to Quotely! This app generates random quotes based on two categories: the length of the quote and the type of creator.")
                     .padding()
 
                 Text("There are already some predefined quotes available for you to test out. Also, you can add your own quotes using the 'Add Quote' button. Enjoy!")
@@ -306,4 +317,84 @@ struct AddQuoteDialog: View {
         }
     }
 }
+
+struct ShareSheet: View {
+    let quote: Quote
+
+    var body: some View {
+        VStack {
+            Text("Share Quote")
+                .font(.title)
+                .padding()
+
+            if quote.text.isEmpty {
+                Text("You first need to have a quote in the textbox!")
+                    .foregroundColor(.red)
+                    .padding()
+            } else {
+                Text("\"\(quote.text)\" - \(quote.creatorName)")
+                    .padding()
+
+                Button("Share via Messages") {
+                    // Share via Messages implementation
+                }
+                .buttonStyle(ShareButtonStyle())
+
+                Button("Share via Email") {
+                    // Share via Email implementation
+                }
+                .buttonStyle(ShareButtonStyle())
+
+                // Add more sharing options as needed...
+
+                Button("Cancel") {
+                    // Dismiss the share sheet
+                }
+                .buttonStyle(CancelButtonStyle())
+            }
+        }
+        .padding()
+        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0)))
+        .cornerRadius(10)
+    }
+}
+
+// Custom button style for share buttons
+struct ShareButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .foregroundColor(.green)
+            .background(Color.white)
+            .cornerRadius(8)
+            .padding(.horizontal, 10) // Adjusted horizontal padding
+            .padding(.vertical, 5) // Adjusted vertical padding
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.green, lineWidth: 2)
+                    .padding(1) // Added padding to ensure the stroke aligns perfectly with the button edges
+            )
+    }
+}
+
+// Custom button style for cancel button
+struct CancelButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .foregroundColor(.red)
+            .background(Color.white)
+            .cornerRadius(8)
+            .padding(.horizontal, 10) // Adjusted horizontal padding
+            .padding(.vertical, 5) // Adjusted vertical padding
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.red, lineWidth: 2)
+                    .padding(1) // Added padding to ensure the stroke aligns perfectly with the button edges
+            )
+    }
+}
+
+
+
 
