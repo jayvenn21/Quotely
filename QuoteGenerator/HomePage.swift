@@ -97,7 +97,7 @@ struct HomePage: View {
             Button("Generate Quote") {
                 generateQuote()
             }
-            .font(.system(size: 18)) // Apple San Francisco font for the button
+            .font(.system(size: 25)) // Apple San Francisco font for the button
             .foregroundColor(.green) // Green color for the button text
             .padding()
 
