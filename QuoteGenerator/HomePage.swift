@@ -144,17 +144,24 @@ struct HomePage: View {
             .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
             .navigationBarItems(trailing:
                 Button(action: {
-                    isDarkMode.toggle() // Toggle dark mode
+                    withAnimation {
+                        isDarkMode.toggle() // Toggle dark mode
+                    }
                 }) {
                     Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill") // Set icon based on mode
-                        .font(.title)
-                        .padding()
+                        .font(.headline) // Adjust the font size to make the icon smaller
+                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 8)) // Adjust padding to align with the back button
                         .foregroundColor(isDarkMode ? .white : .black) // Set icon color based on mode
                 }
             )
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
         .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme based on mode
+        .onAppear {
+            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.clear] // Hide the title text
+            UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default) // Hide the navigation bar background
+            UINavigationBar.appearance().shadowImage = UIImage() // Hide the navigation bar shadow
+        }
         .sheet(isPresented: $isAboutDialogPresented) {
             AboutDialog(isPresented: $isAboutDialogPresented)
                 .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme for the About dialog
