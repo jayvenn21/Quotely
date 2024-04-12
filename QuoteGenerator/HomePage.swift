@@ -38,6 +38,7 @@ struct HomePage: View {
         Quote(text: "Life is what happens when you're busy making other plans.", creator: .artist, creatorName: "John Lennon")
     ]
     @State private var errorMessage: String?
+    @AppStorage("isDarkMode") private var isDarkMode = false // Store dark mode state in UserDefaults
 
     var filteredQuotes: [Quote] {
         var filtered = quotes
@@ -63,84 +64,97 @@ struct HomePage: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button("About") {
-                    isAboutDialogPresented = true
+        NavigationView {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isAboutDialogPresented = true
+                    }) {
+                        Image(systemName: "info.circle")
+                            .font(.title)
+                            .padding()
+                    }
+                    Spacer() // Pushes the "About" button to the middle
                 }
+
+                Text("Quote Generator")
+                    .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
+                    .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                    .padding()
+
+                HStack {
+                    Text("Filter by Length:")
+                        .font(.system(size: 18)) // Apple San Francisco font for the label
+                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                    FilterLengthDropdown(option: $filterLengthOption)
+                        .padding()
+                }
+
+                HStack {
+                    Text("Filter by Creator:")
+                        .font(.system(size: 18)) // Apple San Francisco font for the label
+                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                    FilterCreatorDropdown(option: $filterCreatorOption)
+                        .padding()
+                }
+
+                Button("Generate Quote") {
+                    generateQuote()
+                }
+                .font(.system(size: 25)) // Apple San Francisco font for the button
+                .foregroundColor(.green) // Green color for the button text
                 .padding()
-                Spacer() // Pushes the "About" button to the middle
-            }
 
-            Text("Quote Generator")
-                .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
-                .foregroundColor(.blue) // Blue color for the title text
+                if let quote = quote {
+                    Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
+                        .padding()
+                } else {
+                    Text("No Quote Generated")
+                        .padding()
+                }
+
+                // Error message display
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding()
+                }
+
+                Spacer()
+
+                Button("Add Quote") {
+                    isAddQuoteDialogPresented = true
+                }
+                .font(.system(size: 18)) // Apple San Francisco font for the button
+                .foregroundColor(.green) // Green color for the button text
                 .padding()
 
-            HStack {
-                Text("Filter by Length:")
-                    .font(.system(size: 18)) // Apple San Francisco font for the label
-                    .foregroundColor(.green) // Green color for the label text
-                FilterLengthDropdown(option: $filterLengthOption)
-                    .padding()
+                Button("Share Quote") {
+                    shareQuote()
+                }
+                .font(.system(size: 18)) // Apple San Francisco font for the button
+                .foregroundColor(.green) // Green color for the button text
+                .padding()
+                .sheet(isPresented: $isAddQuoteDialogPresented) { // Changed from isAboutDialogPresented
+                    AddQuoteDialog(isPresented: $isAddQuoteDialogPresented, onAddQuote: addQuote) // Pass the onAddQuote closure
+                }
             }
-
-            HStack {
-                Text("Filter by Creator:")
-                    .font(.system(size: 18)) // Apple San Francisco font for the label
-                    .foregroundColor(.green) // Green color for the label text
-                FilterCreatorDropdown(option: $filterCreatorOption)
-                    .padding()
-            }
-
-            Button("Generate Quote") {
-                generateQuote()
-            }
-            .font(.system(size: 25)) // Apple San Francisco font for the button
-            .foregroundColor(.green) // Green color for the button text
-            .padding()
-
-            if let quote = quote {
-                Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
-                    .padding()
-            } else {
-                Text("No Quote Generated")
-                    .padding()
-            }
-
-            // Error message display
-            if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .padding()
-            }
-
-            Spacer()
-
-            Button("Add Quote") {
-                isAddQuoteDialogPresented = true
-            }
-            .font(.system(size: 18)) // Apple San Francisco font for the button
-            .foregroundColor(.green) // Green color for the button text
-            .padding()
-
-            Button("Share Quote") {
-                shareQuote()
-            }
-            .font(.system(size: 18)) // Apple San Francisco font for the button
-            .foregroundColor(.green) // Green color for the button text
-            .padding()
-            .sheet(isPresented: $isAboutDialogPresented) {
-                AboutDialog(isPresented: $isAboutDialogPresented)
-            }
+            .background(isDarkMode ? Color.black : Color.white) // Set background color based on mode
+            .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+            .navigationBarItems(trailing:
+                Button(action: {
+                    isDarkMode.toggle() // Toggle dark mode
+                }) {
+                    Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill") // Set icon based on mode
+                        .font(.title)
+                        .padding()
+                        .foregroundColor(isDarkMode ? .white : .black) // Set icon color based on mode
+                }
+            )
         }
-        .background(Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0))) // Beige background color
-        .sheet(isPresented: $isAddQuoteDialogPresented) {
-            AddQuoteDialog(isPresented: $isAddQuoteDialogPresented) { quote, creator, lengthCategory, creatorName in
-                addQuote(quote: quote, creator: creator, lengthCategory: lengthCategory, creatorName: creatorName)
-            }
-        }
+        .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
+        .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme based on mode
     }
 
     func generateQuote() {
@@ -235,23 +249,27 @@ struct AboutDialog: View {
 
     var body: some View {
         ZStack {
-            Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0)) // Normal beige background
+            Color(UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0)) // Light gray background
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
                 Text("About Quotely")
                     .font(.title)
                     .padding()
+                    .foregroundColor(.black) // Black text color
 
                 Text("Welcome to Quotely! This app generates random quotes based on two categories: the length of the quote and the type of creator.")
                     .padding()
+                    .foregroundColor(.black) // Black text color
 
                 Text("There are already some predefined quotes available for you to test out. Also, you can add your own quotes using the 'Add Quote' button. Enjoy!")
                     .padding()
+                    .foregroundColor(.black) // Black text color
 
                 Text("Jayanth Vennamreddy")
                     .italic()
                     .padding()
+                    .foregroundColor(.black) // Black text color
 
                 Button("Close") {
                     isPresented = false
@@ -262,7 +280,7 @@ struct AboutDialog: View {
                 .cornerRadius(8)
             }
             .padding()
-            .background(Color(UIColor(red: 235/255, green: 235/255, blue: 210/255, alpha: 1.0))) // Darker beige background
+            .background(Color.white) // White background
             .cornerRadius(10)
         }
     }
@@ -278,7 +296,7 @@ struct AddQuoteDialog: View {
 
     var body: some View {
         ZStack {
-            Color(UIColor(red: 245/255, green: 245/255, blue: 220/255, alpha: 1.0)) // Normal beige background
+            Color(UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0)) // Light gray background
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
@@ -326,7 +344,7 @@ struct AddQuoteDialog: View {
                 }
             }
             .padding()
-            .background(Color(UIColor(red: 235/255, green: 235/255, blue: 210/255, alpha: 1.0))) // Darker beige background
+            .background(Color.white) // White background
             .cornerRadius(10)
         }
     }
@@ -345,6 +363,7 @@ struct AddQuoteDialog: View {
     }
 }
 
+
 // Custom button style for cancel button
 struct CancelButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -362,4 +381,5 @@ struct CancelButtonStyle: ButtonStyle {
             )
     }
 }
+
 
