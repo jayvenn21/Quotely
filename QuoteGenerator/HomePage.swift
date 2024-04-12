@@ -155,6 +155,10 @@ struct HomePage: View {
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
         .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme based on mode
+        .sheet(isPresented: $isAboutDialogPresented) {
+            AboutDialog(isPresented: $isAboutDialogPresented)
+                .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme for the About dialog
+        }
     }
 
     func generateQuote() {
@@ -246,6 +250,7 @@ struct FilterCreatorDropdown: View {
 
 struct AboutDialog: View {
     @Binding var isPresented: Bool
+    let userName = "Jayanth Vennamreddy"
 
     var body: some View {
         ZStack {
@@ -258,10 +263,15 @@ struct AboutDialog: View {
                     .padding()
                     .foregroundColor(.black) // Black text color
 
-                Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes.")
+                Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .padding()
+                    .foregroundColor(.black) // Black text color
+
+                Text("\(userName)")
+                    .italic() // Italicize the text
+                    .padding(.top, 4) // Add top padding
                     .foregroundColor(.black) // Black text color
 
                 Spacer()
@@ -282,6 +292,7 @@ struct AboutDialog: View {
         }
     }
 }
+
 
 struct AddQuoteDialog: View {
     @Binding var isPresented: Bool
