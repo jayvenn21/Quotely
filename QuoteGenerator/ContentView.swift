@@ -27,7 +27,7 @@ struct ContentView: View {
     ]
 
     @State private var wordPositions: [String: CGPoint] = [:]
-    @State private var isLightMode = true // State variable for light/dark mode
+    @State private var isDarkMode = false // State variable for light/dark mode
 
     init() {
         // Initialize wordPositions with random positions within the screen bounds for each word
@@ -42,18 +42,18 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 // Background with moving objects
-                Color(UIColor(red: isLightMode ? 0.95 : 0.1, green: isLightMode ? 0.95 : 0.1, blue: isLightMode ? 0.95 : 0.1, alpha: 1.0)) // Grayish background color
+                Color(UIColor(red: isDarkMode ? 0.1 : 0.95, green: isDarkMode ? 0.1 : 0.95, blue: isDarkMode ? 0.1 : 0.95, alpha: 1.0)) // Grayish background color
 
                 VStack {
                     HStack {
                         Spacer()
                         Button(action: {
-                            isLightMode.toggle()
+                            isDarkMode.toggle()
                         }) {
-                            Image(systemName: isLightMode ? "moon.fill" : "sun.max.fill")
+                            Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
                                 .font(.system(size: 24))
                                 .padding()
-                                .foregroundColor(isLightMode ? .black : .white) // Set color based on light/dark mode
+                                .foregroundColor(isDarkMode ? .white : .black) // Set color based on light/dark mode
                         }
                     }
                     
@@ -62,12 +62,12 @@ struct ContentView: View {
                     VStack {
                         Text("Quotely")
                             .font(.system(size: 48, weight: .bold)) // Apple San Francisco font for the title
-                            .foregroundColor(isLightMode ? .black : .white) // Text color based on light/dark mode
+                            .foregroundColor(isDarkMode ? .white : .black) // Text color based on light/dark mode
                             .padding()
                             .scaleEffect(isButtonTapped ? 1.2 : 1) // Scale animation when button is tapped
                             .animation(.easeInOut(duration: 0.3), value: isButtonTapped) // Animation modifier with value
 
-                        NavigationLink(destination: HomePage(), isActive: $isButtonTapped) {
+                        NavigationLink(destination: HomePage(isDarkMode: $isDarkMode), isActive: $isButtonTapped) {
                             EmptyView()
                         }
                         .hidden() // Hide the navigation link label
@@ -79,7 +79,7 @@ struct ContentView: View {
                         }) {
                             Text("Open Quotely")
                                 .font(.system(size: 24)) // Apple San Francisco font for the button
-                                .foregroundColor(isLightMode ? .green : .blue) // Button text color based on light/dark mode
+                                .foregroundColor(isDarkMode ? .green : .blue) // Button text color based on light/dark mode
                                 .padding()
                                 .background(Color.white)
                                 .cornerRadius(10) // Rounded button corners
@@ -87,7 +87,7 @@ struct ContentView: View {
                                 .scaleEffect(isButtonTapped ? 0.95 : 1) // Scale animation when button is tapped
                         }
                     }
-                    .background(Color(UIColor(red: isLightMode ? 0.9 : 0.2, green: isLightMode ? 0.9 : 0.2, blue: isLightMode ? 0.9 : 0.2, alpha: 1.0))) // Darker gray background color
+                    .background(Color(UIColor(red: isDarkMode ? 0.2 : 0.9, green: isDarkMode ? 0.2 : 0.9, blue: isDarkMode ? 0.2 : 0.9, alpha: 1.0))) // Darker gray background color
                     .gesture(
                         DragGesture().onChanged { _ in
                             // Handle the touch or pointer movement here
@@ -123,10 +123,10 @@ struct ContentView: View {
                     }
                 }
             }
-            .background(Color(UIColor(red: isLightMode ? 0.9 : 0.2, green: isLightMode ? 0.9 : 0.2, blue: isLightMode ? 0.9 : 0.2, alpha: 1.0))) // Darker gray background color
+            .background(Color(UIColor(red: isDarkMode ? 0.2 : 0.9, green: isDarkMode ? 0.2 : 0.9, blue: isDarkMode ? 0.2 : 0.9, alpha: 1.0))) // Darker gray background color
             .navigationBarHidden(true) // Hide the navigation bar
         }
-        .preferredColorScheme(isLightMode ? .light : .dark) // Toggle between light and dark mode
+        .preferredColorScheme(isDarkMode ? .dark : .light) // Toggle between light and dark mode
     }
 }
 
@@ -162,4 +162,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-

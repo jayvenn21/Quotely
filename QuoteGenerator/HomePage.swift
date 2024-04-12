@@ -38,7 +38,7 @@ struct HomePage: View {
         Quote(text: "Life is what happens when you're busy making other plans.", creator: .artist, creatorName: "John Lennon")
     ]
     @State private var errorMessage: String?
-    @AppStorage("isDarkMode") private var isDarkMode = false // Store dark mode state in UserDefaults
+    @Binding var isDarkMode: Bool // Pass the dark mode state from ContentView
 
     var filteredQuotes: [Quote] {
         var filtered = quotes
@@ -258,128 +258,74 @@ struct AboutDialog: View {
                     .padding()
                     .foregroundColor(.black) // Black text color
 
-                Text("Welcome to Quotely! This app generates random quotes based on two categories: the length of the quote and the type of creator.")
+                Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes.")
+                    .font(.body)
+                    .multilineTextAlignment(.center)
                     .padding()
                     .foregroundColor(.black) // Black text color
 
-                Text("There are already some predefined quotes available for you to test out. Also, you can add your own quotes using the 'Add Quote' button. Enjoy!")
-                    .padding()
-                    .foregroundColor(.black) // Black text color
-
-                Text("Jayanth Vennamreddy")
-                    .italic()
-                    .padding()
-                    .foregroundColor(.black) // Black text color
+                Spacer()
 
                 Button("Close") {
                     isPresented = false
                 }
+                .font(.title)
                 .padding()
-                .foregroundColor(.white)
-                .background(Color.green)
-                .cornerRadius(8)
+                .foregroundColor(.white) // White text color
+                .background(Color.blue) // Blue background color
+                .cornerRadius(10) // Rounded button corners
+                .padding()
             }
-            .padding()
-            .background(Color.white) // White background
-            .cornerRadius(10)
+            .background(Color.white) // White background color
+            .cornerRadius(20) // Rounded dialog corners
+            .shadow(radius: 10) // Dialog shadow effect
         }
     }
 }
 
 struct AddQuoteDialog: View {
     @Binding var isPresented: Bool
-    @State private var quote: String = ""
-    @State private var creator: FilterCreator = .all // Default selection
-    @State private var creatorName: String = "" // New state variable for creator's name
-
-    let onAddQuote: (String, FilterCreator, FilterLength, String) -> Void // Updated closure
+    var onAddQuote: (String, FilterCreator, FilterLength, String) -> Void // Add the onAddQuote closure
+    
+    @State private var quote = ""
+    @State private var creatorName = ""
+    @State private var selectedCreator: FilterCreator = .all
 
     var body: some View {
-        ZStack {
-            Color(UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0)) // Light gray background
-                .edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                Text("Add Quote")
-                    .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
-                    .padding()
-
-                TextField("Enter Quote", text: $quote)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    .font(.system(size: 16)) // Apple San Francisco font for the text field
-                    .foregroundColor(.black) // Black color for the text field text
-
-                TextField("Enter Creator Name", text: $creatorName) // New text input for creator's name
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    .font(.system(size: 16)) // Apple San Francisco font for the text field
-                    .foregroundColor(.black) // Black color for the text field text
-
-                Picker("Select Creator Type", selection: $creator) {
-                    Text("Poet").tag(FilterCreator.poet)
-                    Text("Engineer").tag(FilterCreator.engineer)
-                    Text("Artist").tag(FilterCreator.artist)
-                    Text("Other").tag(FilterCreator.other)
+        NavigationView {
+            Form {
+                Section(header: Text("Quote")) {
+                    TextField("Enter Quote", text: $quote)
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
+                
+                Section(header: Text("Creator Name")) {
+                    TextField("Enter Creator Name", text: $creatorName)
+                }
 
-                HStack {
-                    Button("Cancel") {
-                        isPresented = false
+                Section(header: Text("Creator")) {
+                    Picker("Creator", selection: $selectedCreator) {
+                        Text("All").tag(FilterCreator.all)
+                        Text("Poet").tag(FilterCreator.poet)
+                        Text("Engineer").tag(FilterCreator.engineer)
+                        Text("Artist").tag(FilterCreator.artist)
+                        Text("Other").tag(FilterCreator.other) // Changed the tag to .other
                     }
-                    .padding()
-                    .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
-                    .foregroundColor(.red) // Red color for the button text
+                    .pickerStyle(SegmentedPickerStyle())
+                }
 
+                Section {
                     Button("Add Quote") {
-                        let lengthCategory: FilterLength = determineLengthCategory(quote: quote)
-                        onAddQuote(quote, creator, lengthCategory, creatorName) // Pass creatorName to closure
-                        isPresented = false
+                        // Call onAddQuote closure when the "Add Quote" button is tapped
+                        onAddQuote(quote, selectedCreator, .all, creatorName) // Always pass .all for lengthCategory
+                        isPresented = false // Dismiss the dialog
                     }
-                    .padding()
-                    .font(.system(size: 16, weight: .bold)) // Apple San Francisco font for the button
-                    .foregroundColor(.green) // Green color for the button text
                 }
             }
-            .padding()
-            .background(Color.white) // White background
-            .cornerRadius(10)
-        }
-    }
-
-    // Function to determine the length category of the quote
-    func determineLengthCategory(quote: String) -> FilterLength {
-        let length = quote.components(separatedBy: " ")[0].count
-        switch length {
-        case ..<11:
-            return .short
-        case 11...30:
-            return .medium
-        default:
-            return .large
+            .navigationBarTitle("Add Quote")
+            .navigationBarItems(trailing: Button("Cancel") {
+                isPresented = false
+            })
         }
     }
 }
-
-
-// Custom button style for cancel button
-struct CancelButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding()
-            .foregroundColor(.red)
-            .background(Color.white)
-            .cornerRadius(8)
-            .padding(.horizontal, 10) // Adjusted horizontal padding
-            .padding(.vertical, 5) // Adjusted vertical padding
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.red, lineWidth: 2)
-                    .padding(1) // Added padding to ensure the stroke aligns perfectly with the button edges
-            )
-    }
-}
-
 
