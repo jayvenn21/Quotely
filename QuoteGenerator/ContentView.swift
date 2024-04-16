@@ -45,6 +45,8 @@ struct ContentView: View {
                 Color(UIColor(red: isDarkMode ? 0.1 : 0.95, green: isDarkMode ? 0.1 : 0.95, blue: isDarkMode ? 0.1 : 0.95, alpha: 1.0)) // Grayish background color
 
                 VStack {
+                    Spacer().frame(height: 50) // Add space at the top
+
                     HStack {
                         Spacer()
                         Button(action: {
@@ -54,7 +56,10 @@ struct ContentView: View {
                                 .font(.system(size: 24))
                                 .padding()
                                 .foregroundColor(isDarkMode ? .white : .black) // Set color based on light/dark mode
+                                .background(Color.gray) // Highlight the button with a gray background
+                                .clipShape(Circle()) // Clip the button into a circle shape
                         }
+                        Spacer()
                     }
                     
                     Spacer() // Pushes the text to the middle
@@ -162,3 +167,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
