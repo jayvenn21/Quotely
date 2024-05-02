@@ -79,13 +79,13 @@ struct HomePage: View {
                 }
 
                 Text("Quote Generator")
-                    .font(.system(size: 28, weight: .bold)) // Apple San Francisco font for the title
+                    .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
                     .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     .padding()
 
                 HStack {
                     Text("Filter by Length:")
-                        .font(.system(size: 18)) // Apple San Francisco font for the label
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterLengthDropdown(option: $filterLengthOption)
                         .padding()
@@ -93,7 +93,7 @@ struct HomePage: View {
 
                 HStack {
                     Text("Filter by Creator:")
-                        .font(.system(size: 18)) // Apple San Francisco font for the label
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterCreatorDropdown(option: $filterCreatorOption)
                         .padding()
@@ -102,21 +102,24 @@ struct HomePage: View {
                 Button("Generate Quote") {
                     generateQuote()
                 }
-                .font(.system(size: 25)) // Apple San Francisco font for the button
+                .font(.custom("Avenir-Black", size: 25)) // Avenir-Black font for the button
                 .foregroundColor(.green) // Green color for the button text
                 .padding()
 
                 if let quote = quote {
                     Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         .padding()
                 } else {
                     Text("No Quote Generated")
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         .padding()
                 }
 
                 // Error message display
                 if let errorMessage = errorMessage {
                     Text(errorMessage)
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         .foregroundColor(.red)
                         .padding()
                 }
@@ -126,14 +129,14 @@ struct HomePage: View {
                 Button("Add Quote") {
                     isAddQuoteDialogPresented = true
                 }
-                .font(.system(size: 18)) // Apple San Francisco font for the button
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
                 .foregroundColor(.green) // Green color for the button text
                 .padding()
 
                 Button("Share Quote") {
                     shareQuote()
                 }
-                .font(.system(size: 18)) // Apple San Francisco font for the button
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
                 .foregroundColor(.green) // Green color for the button text
                 .padding()
                 .sheet(isPresented: $isAddQuoteDialogPresented) { // Changed from isAboutDialogPresented
@@ -153,6 +156,7 @@ struct HomePage: View {
                         .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 8)) // Adjust padding to align with the back button
                         .foregroundColor(isDarkMode ? .white : .black) // Set icon color based on mode
                 }
+                .padding(.top, 10) // Add padding to the top
             )
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
@@ -232,9 +236,13 @@ struct FilterLengthDropdown: View {
     var body: some View {
         Picker("Length", selection: $option) {
             Text("All").tag(FilterLength.all)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Short").tag(FilterLength.short)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Medium").tag(FilterLength.medium)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Large").tag(FilterLength.large)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -246,10 +254,15 @@ struct FilterCreatorDropdown: View {
     var body: some View {
         Picker("Creator", selection: $option) {
             Text("All").tag(FilterCreator.all)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Poet").tag(FilterCreator.poet)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Engineer").tag(FilterCreator.engineer)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Artist").tag(FilterCreator.artist)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Other").tag(FilterCreator.other) // Changed the tag to .other
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -266,12 +279,12 @@ struct AboutDialog: View {
             
             VStack {
                 Text("About Quotely")
-                    .font(.title)
+                    .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
                     .padding()
                     .foregroundColor(.black) // Black text color
 
                 Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
-                    .font(.body)
+                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                     .multilineTextAlignment(.center)
                     .padding()
                     .foregroundColor(.black) // Black text color
@@ -286,7 +299,7 @@ struct AboutDialog: View {
                 Button("Close") {
                     isPresented = false
                 }
-                .font(.title)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
                 .padding()
                 .foregroundColor(.white) // White text color
                 .background(Color.blue) // Blue background color
@@ -323,10 +336,15 @@ struct AddQuoteDialog: View {
                 Section(header: Text("Creator")) {
                     Picker("Creator", selection: $selectedCreator) {
                         Text("All").tag(FilterCreator.all)
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         Text("Poet").tag(FilterCreator.poet)
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         Text("Engineer").tag(FilterCreator.engineer)
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         Text("Artist").tag(FilterCreator.artist)
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         Text("Other").tag(FilterCreator.other) // Changed the tag to .other
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }

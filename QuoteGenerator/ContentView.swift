@@ -27,10 +27,9 @@ struct ContentView: View {
     ]
 
     @State private var wordPositions: [String: CGPoint] = [:]
-    @State private var isDarkMode = false // State variable for light/dark mode
+    @State private var isDarkMode = false
 
     init() {
-        // Initialize wordPositions with random positions within the screen bounds for each word
         for word in hoverWords {
             let randomX = CGFloat.random(in: 0..<UIScreen.main.bounds.width)
             let randomY = CGFloat.random(in: 0..<UIScreen.main.bounds.height)
@@ -41,12 +40,13 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background with moving objects
-                Color(UIColor(red: isDarkMode ? 0.1 : 0.95, green: isDarkMode ? 0.1 : 0.95, blue: isDarkMode ? 0.1 : 0.95, alpha: 1.0)) // Grayish background color
-
+                // Background
+                Color(UIColor(red: isDarkMode ? 0.1 : 0.95, green: isDarkMode ? 0.1 : 0.95, blue: isDarkMode ? 0.1 : 0.95, alpha: 1.0))
+                    .edgesIgnoringSafeArea(.all)
+                
                 VStack {
-                    Spacer().frame(height: 50) // Add space at the top
-
+                    Spacer().frame(height: 50)
+                    
                     HStack {
                         Spacer()
                         Button(action: {
@@ -54,73 +54,68 @@ struct ContentView: View {
                         }) {
                             Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
                                 .font(.system(size: 24))
+                                .padding(12)
+                                .foregroundColor(isDarkMode ? .white : .black)
+                                .background(Color.gray)
+                                .clipShape(Circle())
                                 .padding()
-                                .foregroundColor(isDarkMode ? .white : .black) // Set color based on light/dark mode
-                                .background(Color.gray) // Highlight the button with a gray background
-                                .clipShape(Circle()) // Clip the button into a circle shape
                         }
                         Spacer()
                     }
                     
-                    Spacer() // Pushes the text to the middle
-                    // Surrounding background for title text and button
+                    Spacer()
+                    
                     VStack {
                         Text("Quotely")
-                            .font(.system(size: 48, weight: .bold)) // Apple San Francisco font for the title
-                            .foregroundColor(isDarkMode ? .white : .black) // Text color based on light/dark mode
+                            .font(.custom("Avenir-Black", size: 60))
+                            .foregroundColor(isDarkMode ? .white : .black)
                             .padding()
-                            .scaleEffect(isButtonTapped ? 1.2 : 1) // Scale animation when button is tapped
-                            .animation(.easeInOut(duration: 0.3), value: isButtonTapped) // Animation modifier with value
-
+                            .scaleEffect(isButtonTapped ? 1.2 : 1)
+                            .animation(.easeInOut(duration: 0.3), value: isButtonTapped)
+                            .shadow(color: .gray, radius: 5, x: 0, y: 5)
+                        
                         NavigationLink(destination: HomePage(isDarkMode: $isDarkMode), isActive: $isButtonTapped) {
                             EmptyView()
                         }
-                        .hidden() // Hide the navigation link label
-
+                        .hidden()
+                        
                         Button(action: {
                             withAnimation {
                                 isButtonTapped.toggle()
                             }
                         }) {
                             Text("Open Quotely")
-                                .font(.system(size: 24)) // Apple San Francisco font for the button
-                                .foregroundColor(isDarkMode ? .green : .blue) // Button text color based on light/dark mode
+                                .font(.custom("Avenir-Heavy", size: 24))
+                                .foregroundColor(isDarkMode ? .green : .blue)
                                 .padding()
                                 .background(Color.white)
-                                .cornerRadius(10) // Rounded button corners
-                                .shadow(radius: 5) // Button shadow effect
-                                .scaleEffect(isButtonTapped ? 0.95 : 1) // Scale animation when button is tapped
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                                .scaleEffect(isButtonTapped ? 0.95 : 1)
                         }
+                        .padding(.bottom, 40)
                     }
-                    .background(Color(UIColor(red: isDarkMode ? 0.2 : 0.9, green: isDarkMode ? 0.2 : 0.9, blue: isDarkMode ? 0.2 : 0.9, alpha: 1.0))) // Darker gray background color
-                    .gesture(
-                        DragGesture().onChanged { _ in
-                            // Handle the touch or pointer movement here
-                            touchedWordIndex = nil // Reset the touched word index
-                        }
-                    )
-
-                    Spacer() // Pushes the button to the middle
-                    Spacer() // Add spacer to extend background to bottom of screen
+                    .background(Color(UIColor(red: isDarkMode ? 0.2 : 0.9, green: isDarkMode ? 0.2 : 0.9, blue: isDarkMode ? 0.2 : 0.9, alpha: 1.0)))
+                    .cornerRadius(20)
+                    .shadow(color: .gray, radius: 10, x: 0, y: 5)
+                    .padding()
+                    
+                    Spacer()
                 }
 
-                // Overlay with hovering words
                 ZStack {
                     ForEach(hoverWords, id: \.self) { word in
                         HoveringWordView(word: word, isTouched: word == hoverWords[touchedWordIndex ?? 0], position: self.$wordPositions[word])
-                            .zIndex(1) // Set a zIndex to ensure words are in front of all other elements
+                            .zIndex(1)
                             .gesture(
                                 TapGesture().onEnded {
-                                    // Handle tap on word
-                                    isButtonTapped.toggle() // Trigger navigation to HomePage
+                                    isButtonTapped.toggle()
                                 }
                             )
                             .simultaneousGesture(
                                 DragGesture().onChanged { gesture in
-                                    // Handle drag gesture on word
-                                    touchedWordIndex = hoverWords.firstIndex(of: word) // Update the touched word index
+                                    touchedWordIndex = hoverWords.firstIndex(of: word)
                                     let translation = gesture.translation
-                                    // Update the position of the word
                                     self.wordPositions[word]?.x += translation.width
                                     self.wordPositions[word]?.y += translation.height
                                 }
@@ -128,10 +123,9 @@ struct ContentView: View {
                     }
                 }
             }
-            .background(Color(UIColor(red: isDarkMode ? 0.2 : 0.9, green: isDarkMode ? 0.2 : 0.9, blue: isDarkMode ? 0.2 : 0.9, alpha: 1.0))) // Darker gray background color
-            .navigationBarHidden(true) // Hide the navigation bar
+            .navigationBarHidden(true)
         }
-        .preferredColorScheme(isDarkMode ? .dark : .light) // Toggle between light and dark mode
+        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 
@@ -142,12 +136,11 @@ struct HoveringWordView: View {
 
     var body: some View {
         Text(word)
-            .font(.system(size: 14)) // Apple San Francisco font
-            .foregroundColor(randomColor()) // Random color for each word
+            .font(.custom("Avenir-Medium", size: 18))
+            .foregroundColor(randomColor())
             .position(position ?? .zero)
-            .animation(Animation.linear(duration: Double.random(in: 2..<5)).repeatForever(autoreverses: true)) // Faster animation
+            .animation(Animation.linear(duration: Double.random(in: 2..<5)).repeatForever(autoreverses: true))
             .onAppear {
-                // Position word randomly within the screen bounds
                 let randomX = CGFloat.random(in: 0..<UIScreen.main.bounds.width)
                 let randomY = CGFloat.random(in: 0..<UIScreen.main.bounds.height)
                 self.position = CGPoint(x: randomX, y: randomY)
