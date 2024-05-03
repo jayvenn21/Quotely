@@ -64,8 +64,30 @@ struct HomePage: View {
     }
 
     var body: some View {
-        NavigationView {
+        ZStack {
+            // Background
+            Color(UIColor(red: isDarkMode ? 0.1 : 0.95, green: isDarkMode ? 0.1 : 0.95, blue: isDarkMode ? 0.1 : 0.95, alpha: 1.0))
+                .edgesIgnoringSafeArea(.all)
             VStack {
+                Spacer().frame(height: 50)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isDarkMode.toggle()
+                    }) {
+                        Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
+                            .font(.system(size: 24))
+                            .padding(12)
+                            .foregroundColor(isDarkMode ? .white : .black)
+                            .background(Color.gray)
+                            .clipShape(Circle())
+                            .padding()
+                    }
+                    Spacer()
+                }
+                
+                Spacer()
+                
                 HStack {
                     Spacer()
                     Button(action: {
@@ -82,6 +104,7 @@ struct HomePage: View {
                     .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
                     .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     .padding()
+                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
 
                 HStack {
                     Text("Filter by Length:")
@@ -110,10 +133,12 @@ struct HomePage: View {
                     Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         .padding()
+                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                 } else {
                     Text("No Quote Generated")
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         .padding()
+                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                 }
 
                 // Error message display
@@ -122,6 +147,7 @@ struct HomePage: View {
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                         .foregroundColor(.red)
                         .padding()
+                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                 }
 
                 Spacer()
@@ -145,19 +171,6 @@ struct HomePage: View {
             }
             .background(isDarkMode ? Color.black : Color.white) // Set background color based on mode
             .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
-            .navigationBarItems(trailing:
-                Button(action: {
-                    withAnimation {
-                        isDarkMode.toggle() // Toggle dark mode
-                    }
-                }) {
-                    Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill") // Set icon based on mode
-                        .font(.headline) // Adjust the font size to make the icon smaller
-                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 8)) // Adjust padding to align with the back button
-                        .foregroundColor(isDarkMode ? .white : .black) // Set icon color based on mode
-                }
-                .padding(.top, 10) // Add padding to the top
-            )
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
         .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme based on mode
