@@ -68,109 +68,127 @@ struct HomePage: View {
             // Background
             Color(UIColor(red: isDarkMode ? 0.1 : 0.95, green: isDarkMode ? 0.1 : 0.95, blue: isDarkMode ? 0.1 : 0.95, alpha: 1.0))
                 .edgesIgnoringSafeArea(.all)
+            
             VStack {
                 Spacer().frame(height: 50)
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isDarkMode.toggle()
-                    }) {
-                        Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
-                            .font(.system(size: 24))
-                            .padding(12)
-                            .foregroundColor(isDarkMode ? .white : .black)
-                            .background(Color.gray)
-                            .clipShape(Circle())
-                            .padding()
-                    }
-                    Spacer()
-                }
                 
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isAboutDialogPresented = true
-                    }) {
-                        Image(systemName: "info.circle")
-                            .font(.title)
-                            .padding()
-                    }
-                    Spacer() // Pushes the "About" button to the middle
-                }
-
-                Text("Quote Generator")
-                    .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
-                    .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                RoundedRectangle(cornerRadius: 30)
+                    .stroke(Color.gray, lineWidth: 2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 30)
+                            .fill(Color.white)
+                            .shadow(radius: 5)
+                    )
                     .padding()
-                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                    .overlay(
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    isDarkMode.toggle()
+                                }) {
+                                    Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
+                                        .font(.system(size: 24))
+                                        .padding(12)
+                                        .foregroundColor(isDarkMode ? .white : .black)
+                                        .background(Color.gray)
+                                        .clipShape(Circle())
+                                        .padding()
+                                }
+                                Spacer()
+                            }
+                            
+                            Spacer()
+                            
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    isAboutDialogPresented = true
+                                }) {
+                                    Image(systemName: "info.circle")
+                                        .font(.title)
+                                        .padding()
+                                }
+                                Spacer() // Pushes the "About" button to the middle
+                            }
 
-                HStack {
-                    Text("Filter by Length:")
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
+                            Text("Quote Generator")
+                                .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
+                                .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                                .padding()
+                                .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+
+                            HStack {
+                                Text("Filter by Length:")
+                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
+                                    .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                                FilterLengthDropdown(option: $filterLengthOption)
+                                    .padding()
+                            }
+
+                            HStack {
+                                Text("Filter by Creator:")
+                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
+                                    .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                                FilterCreatorDropdown(option: $filterCreatorOption)
+                                    .padding()
+                            }
+
+                            Button("Generate Quote") {
+                                generateQuote()
+                            }
+                            .font(.custom("Avenir-Black", size: 25)) // Avenir-Black font for the button
+                            .foregroundColor(.green) // Green color for the button text
+                            .padding()
+
+                            if let quote = quote {
+                                Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
+                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                                    .padding()
+                                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            } else {
+                                Text("No Quote Generated")
+                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                                    .padding()
+                                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            }
+
+                            // Error message display
+                            if let errorMessage = errorMessage {
+                                Text(errorMessage)
+                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                                    .foregroundColor(.red)
+                                    .padding()
+                                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            }
+
+                            Spacer()
+
+                            Button("Add Quote") {
+                                isAddQuoteDialogPresented = true
+                            }
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
+                            .foregroundColor(.green) // Green color for the button text
+                            .padding()
+
+                            Button("Share Quote") {
+                                shareQuote()
+                            }
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
+                            .foregroundColor(.green) // Green color for the button text
+                            .padding()
+                            .sheet(isPresented: $isAddQuoteDialogPresented) { // Changed from isAboutDialogPresented
+                                AddQuoteDialog(isPresented: $isAddQuoteDialogPresented, onAddQuote: addQuote) // Pass the onAddQuote closure
+                            }
+                        }
+                        .background(isDarkMode ? Color.black : Color.white) // Set background color based on mode
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
-                    FilterLengthDropdown(option: $filterLengthOption)
-                        .padding()
-                }
-
-                HStack {
-                    Text("Filter by Creator:")
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
-                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
-                    FilterCreatorDropdown(option: $filterCreatorOption)
-                        .padding()
-                }
-
-                Button("Generate Quote") {
-                    generateQuote()
-                }
-                .font(.custom("Avenir-Black", size: 25)) // Avenir-Black font for the button
-                .foregroundColor(.green) // Green color for the button text
-                .padding()
-
-                if let quote = quote {
-                    Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
-                        .padding()
-                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                } else {
-                    Text("No Quote Generated")
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
-                        .padding()
-                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                }
-
-                // Error message display
-                if let errorMessage = errorMessage {
-                    Text(errorMessage)
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
-                        .foregroundColor(.red)
-                        .padding()
-                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                }
-
-                Spacer()
-
-                Button("Add Quote") {
-                    isAddQuoteDialogPresented = true
-                }
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
-                .foregroundColor(.green) // Green color for the button text
-                .padding()
-
-                Button("Share Quote") {
-                    shareQuote()
-                }
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
-                .foregroundColor(.green) // Green color for the button text
-                .padding()
-                .sheet(isPresented: $isAddQuoteDialogPresented) { // Changed from isAboutDialogPresented
-                    AddQuoteDialog(isPresented: $isAddQuoteDialogPresented, onAddQuote: addQuote) // Pass the onAddQuote closure
-                }
+                    )
+                    .padding()
+                
+                Spacer().frame(height: 50) // Add space at the bottom
             }
-            .background(isDarkMode ? Color.black : Color.white) // Set background color based on mode
-            .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+            .padding(.horizontal) // Add horizontal padding
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
         .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme based on mode
@@ -290,38 +308,45 @@ struct AboutDialog: View {
             Color(UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0)) // Light gray background
                 .edgesIgnoringSafeArea(.all)
             
-            VStack {
-                Text("About Quotely")
-                    .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
-                    .padding()
-                    .foregroundColor(.black) // Black text color
-
-                Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
-                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .foregroundColor(.black) // Black text color
-
-                Text("\(userName)")
-                    .italic() // Italicize the text
-                    .padding(.top, 4) // Add top padding
-                    .foregroundColor(.black) // Black text color
-
-                Spacer()
-
-                Button("Close") {
-                    isPresented = false
-                }
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
+            RoundedRectangle(cornerRadius: 30)
+                .fill(Color.white)
+                .shadow(radius: 5)
                 .padding()
-                .foregroundColor(.white) // White text color
-                .background(Color.blue) // Blue background color
-                .cornerRadius(10) // Rounded button corners
+                .overlay(
+                    VStack {
+                        Text("About Quotely")
+                            .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
+                            .padding()
+                            .foregroundColor(.black) // Black text color
+
+                        Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                            .multilineTextAlignment(.center)
+                            .padding()
+                            .foregroundColor(.black) // Black text color
+
+                        Text("\(userName)")
+                            .italic() // Italicize the text
+                            .padding(.top, 4) // Add top padding
+                            .foregroundColor(.black) // Black text color
+
+                        Spacer()
+
+                        Button("Close") {
+                            isPresented = false
+                        }
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
+                        .padding()
+                        .foregroundColor(.white) // White text color
+                        .background(Color.blue) // Blue background color
+                        .cornerRadius(10) // Rounded button corners
+                        .padding()
+                    }
+                    .background(Color.white) // White background color
+                    .cornerRadius(20) // Rounded dialog corners
+                    .shadow(radius: 10) // Dialog shadow effect
+                )
                 .padding()
-            }
-            .background(Color.white) // White background color
-            .cornerRadius(20) // Rounded dialog corners
-            .shadow(radius: 10) // Dialog shadow effect
         }
     }
 }
