@@ -30,6 +30,7 @@ struct HomePage: View {
     @State private var isAboutDialogPresented = false
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
+    @State private var filterDatabaseOption: String = "All Databases"
     @State private var quotes = [
         Quote(text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", creator: .poet, creatorName: "Nelson Mandela"),
         Quote(text: "The way to get started is to quit talking and begin doing.", creator: .engineer, creatorName: "Walt Disney"),
@@ -60,6 +61,11 @@ struct HomePage: View {
             filtered = filtered.filter { $0.creator == filterCreatorOption }
         }
 
+        // Filter by database
+        if filterDatabaseOption != "All Databases" {
+            // Implement database filtering logic here
+        }
+
         return filtered
     }
 
@@ -69,47 +75,19 @@ struct HomePage: View {
             Color(isDarkMode ? .black : .white)
                 .edgesIgnoringSafeArea(.all)
 
-            VStack {
-                Spacer().frame(height: 50)
-
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isDarkMode.toggle()
-                    }) {
-                        Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
-                            .font(.system(size: 24))
-                            .padding(12)
-                            .foregroundColor(isDarkMode ? .white : .black)
-                            .background(Color.gray)
-                            .clipShape(Circle())
-                            .padding()
-                    }
-                    Spacer()
+            VStack(spacing: 0) {
+                // Light/Dark Mode Toggle Icon
+                Button(action: {
+                    isDarkMode.toggle()
+                }) {
+                    Image(systemName: isDarkMode ? "moon.circle.fill" : "sun.max.fill")
+                        .font(.title)
+                        .padding(.top, 20) // Add top padding
+                        .foregroundColor(isDarkMode ? .white : .black) // Set icon color based on mode
                 }
 
-                Spacer()
-
                 HStack {
-                    Spacer()
-                    Button(action: {
-                        isAboutDialogPresented = true
-                    }) {
-                        Image(systemName: "info.circle")
-                            .font(.title)
-                            .padding()
-                            .foregroundColor(isDarkMode ? .black : .black) // Set text color based on mode
-                    }
-                    Spacer() // Pushes the "About" button to the middle
-                }
-
-                Text("Quote Generator")
-                    .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
-                    .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
-                    .padding()
-                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-
-                HStack {
+                    // Filter by Length
                     Text("Filter by Length:")
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
@@ -118,10 +96,21 @@ struct HomePage: View {
                 }
 
                 HStack {
+                    // Filter by Creator
                     Text("Filter by Creator:")
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterCreatorDropdown(option: $filterCreatorOption)
+                        .padding()
+                }
+
+                HStack {
+                    // Filter by Database
+                    Text("Filter by Database:")
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
+                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+                    // Add filter by database dropdown here
+                    FilterDatabaseDropdown(option: $filterDatabaseOption)
                         .padding()
                 }
 
@@ -156,9 +145,6 @@ struct HomePage: View {
                         .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                 }
 
-                Spacer()
-
-                // Add quote button background enclosure
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.white) // White background color
                     .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
@@ -173,7 +159,6 @@ struct HomePage: View {
                     )
                     .padding(.bottom) // Add bottom padding to separate from the bottom edge
 
-                // Share quote button background enclosure
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.white) // White background color
                     .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
@@ -267,6 +252,7 @@ struct HomePage: View {
 
 }
 
+
 struct FilterLengthDropdown: View {
     @Binding var option: FilterLength
 
@@ -300,6 +286,22 @@ struct FilterCreatorDropdown: View {
                 .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
             Text("Other").tag(FilterCreator.other) // Changed the tag to .other
                 .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+        }
+        .pickerStyle(MenuPickerStyle())
+    }
+}
+
+struct FilterDatabaseDropdown: View {
+    @Binding var option: String
+    
+    let databases = ["All Databases", "Database 1", "Database 2", "Database 3"]
+    
+    var body: some View {
+        Picker("Database", selection: $option) {
+            ForEach(databases, id: \.self) { database in
+                Text(database)
+                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+            }
         }
         .pickerStyle(MenuPickerStyle())
     }
