@@ -60,6 +60,7 @@ struct ContentView: View {
                                 .clipShape(Circle())
                                 .padding()
                         }
+                        .frame(width: 60, height: 60) // Ensure fixed frame size
                         Spacer()
                     }
                     
@@ -107,11 +108,6 @@ struct ContentView: View {
                     ForEach(hoverWords, id: \.self) { word in
                         HoveringWordView(word: word, isTouched: word == hoverWords[touchedWordIndex ?? 0], position: self.$wordPositions[word])
                             .zIndex(1)
-                            .gesture(
-                                TapGesture().onEnded {
-                                    isButtonTapped.toggle()
-                                }
-                            )
                             .simultaneousGesture(
                                 DragGesture().onChanged { gesture in
                                     touchedWordIndex = hoverWords.firstIndex(of: word)
@@ -124,6 +120,19 @@ struct ContentView: View {
                 }
             }
             .navigationBarHidden(true)
+            .background(
+                GeometryReader { geo in
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            let buttonFrame = CGRect(x: geo.size.width / 2 - 30, y: geo.size.height / 2 - 30, width: 60, height: 60) // Adjusted frame for the circular button
+                            let touchPoint = CGPoint(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
+                            if buttonFrame.contains(touchPoint) {
+                                isButtonTapped.toggle()
+                            }
+                        }
+                }
+            )
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
     }

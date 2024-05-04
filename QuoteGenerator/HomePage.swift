@@ -31,6 +31,7 @@ struct HomePage: View {
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
     @State private var filterDatabaseOption: String = "All Databases"
+    @State private var enteredCreatorName: String = ""
     @State private var quotes = [
         Quote(text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", creator: .poet, creatorName: "Nelson Mandela"),
         Quote(text: "The way to get started is to quit talking and begin doing.", creator: .engineer, creatorName: "Walt Disney"),
@@ -66,6 +67,11 @@ struct HomePage: View {
             // Implement database filtering logic here
         }
 
+        // Filter by creator name
+        if !enteredCreatorName.isEmpty {
+            filtered = filtered.filter { $0.creatorName.localizedCaseInsensitiveContains(enteredCreatorName) }
+        }
+
         return filtered
     }
 
@@ -80,19 +86,19 @@ struct HomePage: View {
                 Button(action: {
                     isDarkMode.toggle()
                 }) {
-                    Image(systemName: isDarkMode ? "moon.circle.fill" : "sun.max.fill")
+                    Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
                         .font(.title)
-                        .padding(.top, 20) // Add top padding
+                        .padding(.top, 10) // Add top padding
                         .foregroundColor(isDarkMode ? .white : .black) // Set icon color based on mode
+                        .padding(.bottom, 10)
                 }
-
+                Spacer()
                 HStack {
                     // Filter by Length
                     Text("Filter by Length:")
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterLengthDropdown(option: $filterLengthOption)
-                        .padding()
                 }
 
                 HStack {
@@ -101,7 +107,7 @@ struct HomePage: View {
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterCreatorDropdown(option: $filterCreatorOption)
-                        .padding()
+                        
                 }
 
                 HStack {
@@ -111,26 +117,34 @@ struct HomePage: View {
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     // Add filter by database dropdown here
                     FilterDatabaseDropdown(option: $filterDatabaseOption)
+                        
+                }
+
+                HStack {
+                    // Filter by Creator Name
+                    TextField("Filter by Creator Name", text: $enteredCreatorName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .font(.custom("Avenir-Black", size: 18))
                         .padding()
                 }
 
                 Button("Generate Quote") {
                     generateQuote()
                 }
-                .font(.custom("Avenir-Black", size: 25)) // Avenir-Black font for the button
+                .font(.custom("Avenir-Black", size: 21)) // Avenir-Black font for the button
                 .foregroundColor(.green) // Green color for the button text
                 .padding()
 
                 if let quote = quote {
                     Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                        .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
                         .padding()
                         .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                         .lineLimit(nil) // Remove line limit to display the entire quote
                         .multilineTextAlignment(.center) // Center align text
                 } else {
                     Text("No Quote Generated")
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                        .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                         .padding()
                         .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
@@ -139,39 +153,44 @@ struct HomePage: View {
                 // Error message display
                 if let errorMessage = errorMessage {
                     Text(errorMessage)
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                        .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
                         .foregroundColor(.red)
                         .padding()
                         .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                 }
 
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white) // White background color
-                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                    .padding() // Add padding around the button
-                    .overlay(
-                        Button("Add Quote") {
-                            isAddQuoteDialogPresented = true
-                        }
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
-                        .foregroundColor(.green) // Green color for the button text
-                        .padding()
-                    )
-                    .padding(.bottom) // Add bottom padding to separate from the bottom edge
-
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white) // White background color
-                    .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                    .padding() // Add padding around the button
-                    .overlay(
-                        Button("Share Quote") {
-                            shareQuote()
-                        }
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
-                        .foregroundColor(.green) // Green color for the button text
-                        .padding()
-                    )
-                    .padding(.bottom) // Add bottom padding to separate from the bottom edge
+                HStack(spacing: 20) { // Add HStack to contain both buttons with spacing
+                    Spacer() // Add spacer before the first rounded rectangle
+                    Button(action: {
+                        isAddQuoteDialogPresented = true
+                    }) {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white) // White background color
+                            .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            .overlay(
+                                Text("Add Quote")
+                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+                                    .foregroundColor(.green) // Green color for the button text
+                                    .padding(.horizontal, 10) // Add horizontal padding
+                            )
+                    }
+                    Spacer() // Add spacer between the two rounded rectangles
+                    Button(action: {
+                        shareQuote()
+                    }) {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white) // White background color
+                            .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            .overlay(
+                                Text("Share Quote")
+                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+                                    .foregroundColor(.green) // Green color for the button text
+                                    .padding(.horizontal, 10) // Add horizontal padding
+                            )
+                    }
+                    Spacer() // Add spacer after the second rounded rectangle
+                }
+                .padding(.bottom) // Add bottom padding to separate from the bottom edge
             }
             .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
             .padding()
@@ -202,11 +221,23 @@ struct HomePage: View {
             return
         }
 
-        let randomIndex = Int.random(in: 0..<filteredQuotes.count)
-        quote = filteredQuotes[randomIndex]
+        // Filter quotes by entered creator name
+        var filteredByCreatorName = filteredQuotes
+        if !enteredCreatorName.isEmpty {
+            filteredByCreatorName = filteredByCreatorName.filter { $0.creatorName.localizedCaseInsensitiveContains(enteredCreatorName) }
+        }
+
+        guard !filteredByCreatorName.isEmpty else {
+            // Handle the case where no quotes match the entered creator name
+            errorMessage = "No quotes found for the entered creator name."
+            return
+        }
+
+        let randomIndex = Int.random(in: 0..<filteredByCreatorName.count)
+        quote = filteredByCreatorName[randomIndex]
 
         // Check if there is only one quote available
-        if filteredQuotes.count == 1 {
+        if filteredByCreatorName.count == 1 {
             errorMessage = "There is only one quote. Add more quotes."
         } else {
             errorMessage = nil
@@ -249,9 +280,7 @@ struct HomePage: View {
             }
         }
     }
-
 }
-
 
 struct FilterLengthDropdown: View {
     @Binding var option: FilterLength
