@@ -15,6 +15,8 @@
 		5E16B1982BC2329E0072E408 /* QuoteGeneratorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B1972BC2329E0072E408 /* QuoteGeneratorUITests.swift */; };
 		5E16B19A2BC2329E0072E408 /* QuoteGeneratorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B1992BC2329E0072E408 /* QuoteGeneratorUITestsLaunchTests.swift */; };
 		5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B1AA2BC23B8D0072E408 /* HomePage.swift */; };
+		5EEBC7F42BE7FF8200543833 /* AnimeDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC7F32BE7FF8200543833 /* AnimeDatabasePage.swift */; };
+		5EEBC7F62BE7FF9E00543833 /* DatabaseSelectionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC7F52BE7FF9E00543833 /* DatabaseSelectionPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		5E16B1972BC2329E0072E408 /* QuoteGeneratorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteGeneratorUITests.swift; sourceTree = "<group>"; };
 		5E16B1992BC2329E0072E408 /* QuoteGeneratorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteGeneratorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5E16B1AA2BC23B8D0072E408 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
+		5EEBC7F32BE7FF8200543833 /* AnimeDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDatabasePage.swift; sourceTree = "<group>"; };
+		5EEBC7F52BE7FF9E00543833 /* DatabaseSelectionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSelectionPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 				5E16B1802BC2329E0072E408 /* Assets.xcassets */,
 				5E16B1822BC2329E0072E408 /* Preview Content */,
 				5E16B1AA2BC23B8D0072E408 /* HomePage.swift */,
+				5EEBC7F32BE7FF8200543833 /* AnimeDatabasePage.swift */,
+				5EEBC7F52BE7FF9E00543833 /* DatabaseSelectionPage.swift */,
 			);
 			path = QuoteGenerator;
 			sourceTree = "<group>";
@@ -262,6 +268,8 @@
 			files = (
 				5E16B17F2BC2329D0072E408 /* ContentView.swift in Sources */,
 				5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */,
+				5EEBC7F62BE7FF9E00543833 /* DatabaseSelectionPage.swift in Sources */,
+				5EEBC7F42BE7FF8200543833 /* AnimeDatabasePage.swift in Sources */,
 				5E16B17D2BC2329D0072E408 /* QuoteGeneratorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

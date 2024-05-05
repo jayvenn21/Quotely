@@ -189,6 +189,19 @@ struct HomePage: View {
                             )
                     }
                     Spacer() // Add spacer after the second rounded rectangle
+                    // Add "Generate from Database" button
+                        NavigationLink(destination: DatabaseSelectionPage()) {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white) // White background color
+                                .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                                .overlay(
+                                    Text("Generate from Database")
+                                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+                                        .foregroundColor(.green) // Green color for the button text
+                                        .padding(.horizontal, 10) // Add horizontal padding
+                                )
+                        }
+                    Spacer()
                 }
                 .padding(.bottom) // Add bottom padding to separate from the bottom edge
             }
