@@ -119,7 +119,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationBarHidden(true)
+            .navigationBarHidden(false) // Show the navigation bar
             .background(
                 GeometryReader { geo in
                     Color.clear

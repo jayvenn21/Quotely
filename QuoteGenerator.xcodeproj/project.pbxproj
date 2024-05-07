@@ -17,6 +17,8 @@
 		5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16B1AA2BC23B8D0072E408 /* HomePage.swift */; };
 		5EEBC7F42BE7FF8200543833 /* AnimeDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC7F32BE7FF8200543833 /* AnimeDatabasePage.swift */; };
 		5EEBC7F62BE7FF9E00543833 /* DatabaseSelectionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC7F52BE7FF9E00543833 /* DatabaseSelectionPage.swift */; };
+		5EEBC7FA2BEA7ACA00543833 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC7F92BEA7ACA00543833 /* NavigationBar.swift */; };
+		5EEBC7FC2BEA7C3700543833 /* ShareQuotePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC7FB2BEA7C3700543833 /* ShareQuotePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		5E16B1AA2BC23B8D0072E408 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		5EEBC7F32BE7FF8200543833 /* AnimeDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDatabasePage.swift; sourceTree = "<group>"; };
 		5EEBC7F52BE7FF9E00543833 /* DatabaseSelectionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSelectionPage.swift; sourceTree = "<group>"; };
+		5EEBC7F92BEA7ACA00543833 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		5EEBC7FB2BEA7C3700543833 /* ShareQuotePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareQuotePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				5E16B1AA2BC23B8D0072E408 /* HomePage.swift */,
 				5EEBC7F32BE7FF8200543833 /* AnimeDatabasePage.swift */,
 				5EEBC7F52BE7FF9E00543833 /* DatabaseSelectionPage.swift */,
+				5EEBC7F92BEA7ACA00543833 /* NavigationBar.swift */,
+				5EEBC7FB2BEA7C3700543833 /* ShareQuotePage.swift */,
 			);
 			path = QuoteGenerator;
 			sourceTree = "<group>";
@@ -267,10 +273,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E16B17F2BC2329D0072E408 /* ContentView.swift in Sources */,
+				5EEBC7FC2BEA7C3700543833 /* ShareQuotePage.swift in Sources */,
 				5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */,
 				5EEBC7F62BE7FF9E00543833 /* DatabaseSelectionPage.swift in Sources */,
 				5EEBC7F42BE7FF8200543833 /* AnimeDatabasePage.swift in Sources */,
 				5E16B17D2BC2329D0072E408 /* QuoteGeneratorApp.swift in Sources */,
+				5EEBC7FA2BEA7ACA00543833 /* NavigationBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
