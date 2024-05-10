@@ -33,9 +33,9 @@ class QuoteGardenNetworkManager: ObservableObject {
                 return
             }
             
-            if let response = try? JSONDecoder().decode(QuoteGardenQuote.self, from: data) {
+            if let response = try? JSONDecoder().decode(RandomQuoteResponse.self, from: data) {
                 DispatchQueue.main.async {
-                    self.randomQuote = response
+                    self.randomQuote = response.data.first
                 }
             } else {
                 print("Failed to decode response")
@@ -55,9 +55,9 @@ class QuoteGardenNetworkManager: ObservableObject {
                 return
             }
             
-            if let response = try? JSONDecoder().decode([QuoteGardenQuote].self, from: data) {
+            if let response = try? JSONDecoder().decode(QuotesResponse.self, from: data) {
                 DispatchQueue.main.async {
-                    self.quotes = response
+                    self.quotes = response.data
                 }
             } else {
                 print("Failed to decode response")
@@ -163,6 +163,34 @@ struct QGDatabasePage: View {
 struct QGDatabasePage_Previews: PreviewProvider {
     static var previews: some View {
         QGDatabasePage()
+    }
+}
+
+struct RandomQuoteResponse: Codable {
+    let statusCode: Int
+    let message: String
+    let pagination: Pagination
+    let totalQuotes: Int
+    let data: [QuoteGardenQuote]
+    
+    struct Pagination: Codable {
+        let currentPage: Int
+        let nextPage: Int?
+        let totalPages: Int
+    }
+}
+
+struct QuotesResponse: Codable {
+    let statusCode: Int
+    let message: String
+    let pagination: Pagination
+    let totalQuotes: Int
+    let data: [QuoteGardenQuote]
+    
+    struct Pagination: Codable {
+        let currentPage: Int
+        let nextPage: Int?
+        let totalPages: Int
     }
 }
 

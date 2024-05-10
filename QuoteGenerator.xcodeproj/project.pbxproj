@@ -23,6 +23,7 @@
 		5EEBC8042BEDBCCA00543833 /* SettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8032BEDBCCA00543833 /* SettingsPage.swift */; };
 		5EEBC8062BEE7BAE00543833 /* KanyeDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8052BEE7BAE00543833 /* KanyeDatabasePage.swift */; };
 		5EEBC8082BEE7FB500543833 /* QGDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8072BEE7FB500543833 /* QGDatabasePage.swift */; };
+		5EEBC80C2BEEA5A900543833 /* StoicismDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC80B2BEEA5A900543833 /* StoicismDatabasePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		5EEBC8032BEDBCCA00543833 /* SettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPage.swift; sourceTree = "<group>"; };
 		5EEBC8052BEE7BAE00543833 /* KanyeDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanyeDatabasePage.swift; sourceTree = "<group>"; };
 		5EEBC8072BEE7FB500543833 /* QGDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QGDatabasePage.swift; sourceTree = "<group>"; };
+		5EEBC80B2BEEA5A900543833 /* StoicismDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoicismDatabasePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +94,6 @@
 		5E16B1702BC2329D0072E408 = {
 			isa = PBXGroup;
 			children = (
-				5EEBC8052BEE7BAE00543833 /* KanyeDatabasePage.swift */,
 				5E16B17B2BC2329D0072E408 /* QuoteGenerator */,
 				5E16B18C2BC2329E0072E408 /* QuoteGeneratorTests */,
 				5E16B1962BC2329E0072E408 /* QuoteGeneratorUITests */,
@@ -113,6 +114,7 @@
 		5E16B17B2BC2329D0072E408 /* QuoteGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				5EEBC8052BEE7BAE00543833 /* KanyeDatabasePage.swift */,
 				5E16B17C2BC2329D0072E408 /* QuoteGeneratorApp.swift */,
 				5E16B17E2BC2329D0072E408 /* ContentView.swift */,
 				5E16B1802BC2329E0072E408 /* Assets.xcassets */,
@@ -125,6 +127,7 @@
 				5EEBC8012BEDBB9D00543833 /* MainPage.swift */,
 				5EEBC8032BEDBCCA00543833 /* SettingsPage.swift */,
 				5EEBC8072BEE7FB500543833 /* QGDatabasePage.swift */,
+				5EEBC80B2BEEA5A900543833 /* StoicismDatabasePage.swift */,
 			);
 			path = QuoteGenerator;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 			files = (
 				5EEBC8062BEE7BAE00543833 /* KanyeDatabasePage.swift in Sources */,
 				5E16B17F2BC2329D0072E408 /* ContentView.swift in Sources */,
+				5EEBC80C2BEEA5A900543833 /* StoicismDatabasePage.swift in Sources */,
 				5EEBC7FC2BEA7C3700543833 /* ShareQuotePage.swift in Sources */,
 				5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */,
 				5EEBC8002BED1DF100543833 /* AboutView.swift in Sources */,
