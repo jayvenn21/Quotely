@@ -75,7 +75,7 @@ struct ContentView: View {
                             .animation(.easeInOut(duration: 0.3), value: isButtonTapped)
                             .shadow(color: .gray, radius: 5, x: 0, y: 5)
                         
-                        NavigationLink(destination: HomePage(isDarkMode: $isDarkMode), isActive: $isButtonTapped) {
+                        NavigationLink(destination: MainPage(), isActive: $isButtonTapped) {
                             EmptyView()
                         }
                         .hidden()
