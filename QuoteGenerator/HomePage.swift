@@ -39,8 +39,7 @@ struct HomePage: View {
         Quote(text: "Life is what happens when you're busy making other plans.", creator: .artist, creatorName: "John Lennon")
     ]
     @State private var errorMessage: String?
-    @Binding var isDarkMode: Bool // Pass the dark mode state from ContentView
-
+    
     var filteredQuotes: [Quote] {
         var filtered = quotes
 
@@ -77,7 +76,7 @@ struct HomePage: View {
     var body: some View {
         ZStack {
             // Background
-            Color(isDarkMode ? .black : .white)
+            Color.white
                 .edgesIgnoringSafeArea(.all)
 
             VStack(spacing: 0) {
@@ -86,7 +85,6 @@ struct HomePage: View {
                     // Filter by Length
                     Text("Filter by Length:")
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
-                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterLengthDropdown(option: $filterLengthOption)
                 }
 
@@ -94,7 +92,6 @@ struct HomePage: View {
                     // Filter by Creator
                     Text("Filter by Creator:")
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
-                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterCreatorDropdown(option: $filterCreatorOption)
 
                 }
@@ -103,7 +100,6 @@ struct HomePage: View {
                     // Filter by Database
                     Text("Filter by Database:")
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
-                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     // Add filter by database dropdown here
                     FilterDatabaseDropdown(option: $filterDatabaseOption)
 
@@ -128,15 +124,14 @@ struct HomePage: View {
                     Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
                         .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
                         .padding()
-                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                        .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                         .lineLimit(nil) // Remove line limit to display the entire quote
                         .multilineTextAlignment(.center) // Center align text
                 } else {
                     Text("No Quote Generated")
                         .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
-                        .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                         .padding()
-                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                        .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                 }
 
                 // Error message display
@@ -145,7 +140,7 @@ struct HomePage: View {
                         .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
                         .foregroundColor(.red)
                         .padding()
-                        .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                        .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                 }
 
                 HStack(spacing: 20) { // Add HStack to contain both buttons with spacing
@@ -155,7 +150,7 @@ struct HomePage: View {
                     }) {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white) // White background color
-                            .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                             .overlay(
                                 Text("Add Quote")
                                     .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
@@ -169,7 +164,7 @@ struct HomePage: View {
                     }) {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white) // White background color
-                            .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                             .overlay(
                                 Text("Share Quote")
                                     .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
@@ -182,7 +177,7 @@ struct HomePage: View {
                         NavigationLink(destination: DatabaseSelectionPage()) {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white) // White background color
-                                .shadow(color: isDarkMode ? .black : .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                                .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
                                 .overlay(
                                     Text("Generate from Database")
                                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
@@ -194,13 +189,12 @@ struct HomePage: View {
                 }
                 .padding(.bottom) // Add bottom padding to separate from the bottom edge
             }
-            .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
+            .foregroundColor(.black) // Set text color to black
             .padding()
 
             Spacer().frame(height: 50) // Add space at the bottom
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
-        .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme based on mode
         .onAppear {
             UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.clear] // Hide the title text
             UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default) // Hide the navigation bar background
@@ -384,3 +378,4 @@ struct AddQuoteDialog: View {
         }
     }
 }
+

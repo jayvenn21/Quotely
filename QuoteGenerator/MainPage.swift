@@ -10,7 +10,7 @@ struct MainPage: View {
                     Image(systemName: "info.circle") // System name image for About
                     Text("About")
                 }
-            HomePage(isDarkMode: $isDarkMode) // Pass the binding variable
+            HomePage() // Pass the binding variable
                 .tabItem {
                     Image(systemName: "house") // System name image for Home
                     Text("Home")
