@@ -13,6 +13,7 @@ struct DatabaseSelectionPage: View {
                 Text("All Databases").tag("All Databases")
                 Text("Anime Database").tag("Anime Database")
                 Text("Kanye Database").tag("Kanye Database")
+                Text("Quote Garden Database").tag("Quote Garden Database")
             }
             .pickerStyle(MenuPickerStyle())
             .padding()
@@ -32,6 +33,8 @@ struct DatabaseSelectionPage: View {
             AnimeDatabasePage()
         case "Kanye Database":
             KanyeDatabasePage()
+        case "Quote Garden Database":
+            QGDatabasePage()
         default:
             EmptyView()
         }

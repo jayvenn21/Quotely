@@ -22,6 +22,7 @@
 		5EEBC8022BEDBB9D00543833 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8012BEDBB9D00543833 /* MainPage.swift */; };
 		5EEBC8042BEDBCCA00543833 /* SettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8032BEDBCCA00543833 /* SettingsPage.swift */; };
 		5EEBC8062BEE7BAE00543833 /* KanyeDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8052BEE7BAE00543833 /* KanyeDatabasePage.swift */; };
+		5EEBC8082BEE7FB500543833 /* QGDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8072BEE7FB500543833 /* QGDatabasePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		5EEBC8012BEDBB9D00543833 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 		5EEBC8032BEDBCCA00543833 /* SettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPage.swift; sourceTree = "<group>"; };
 		5EEBC8052BEE7BAE00543833 /* KanyeDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanyeDatabasePage.swift; sourceTree = "<group>"; };
+		5EEBC8072BEE7FB500543833 /* QGDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QGDatabasePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				5EEBC7FF2BED1DF100543833 /* AboutView.swift */,
 				5EEBC8012BEDBB9D00543833 /* MainPage.swift */,
 				5EEBC8032BEDBCCA00543833 /* SettingsPage.swift */,
+				5EEBC8072BEE7FB500543833 /* QGDatabasePage.swift */,
 			);
 			path = QuoteGenerator;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				5EEBC8002BED1DF100543833 /* AboutView.swift in Sources */,
 				5EEBC8042BEDBCCA00543833 /* SettingsPage.swift in Sources */,
 				5EEBC8022BEDBB9D00543833 /* MainPage.swift in Sources */,
+				5EEBC8082BEE7FB500543833 /* QGDatabasePage.swift in Sources */,
 				5EEBC7F62BE7FF9E00543833 /* DatabaseSelectionPage.swift in Sources */,
 				5EEBC7F42BE7FF8200543833 /* AnimeDatabasePage.swift in Sources */,
 				5E16B17D2BC2329D0072E408 /* QuoteGeneratorApp.swift in Sources */,
