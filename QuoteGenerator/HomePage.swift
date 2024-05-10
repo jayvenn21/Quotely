@@ -27,7 +27,6 @@ struct Quote {
 struct HomePage: View {
     @State private var quote: Quote?
     @State private var isAddQuoteDialogPresented = false
-    @State private var isAboutDialogPresented = false
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
     @State private var filterDatabaseOption: String = "All Databases"
@@ -82,16 +81,6 @@ struct HomePage: View {
                 .edgesIgnoringSafeArea(.all)
 
             VStack(spacing: 0) {
-                // Light/Dark Mode Toggle Icon
-                Button(action: {
-                    isDarkMode.toggle()
-                }) {
-                    Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
-                        .font(.title)
-                        .padding(.top, 10) // Add top padding
-                        .foregroundColor(isDarkMode ? .white : .black) // Set icon color based on mode
-                        .padding(.bottom, 10)
-                }
                 Spacer()
                 HStack {
                     // Filter by Length
@@ -107,7 +96,7 @@ struct HomePage: View {
                         .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     FilterCreatorDropdown(option: $filterCreatorOption)
-                        
+
                 }
 
                 HStack {
@@ -117,7 +106,7 @@ struct HomePage: View {
                         .foregroundColor(isDarkMode ? .white : .black) // Set text color based on mode
                     // Add filter by database dropdown here
                     FilterDatabaseDropdown(option: $filterDatabaseOption)
-                        
+
                 }
 
                 HStack {
@@ -216,10 +205,6 @@ struct HomePage: View {
             UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.clear] // Hide the title text
             UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default) // Hide the navigation bar background
             UINavigationBar.appearance().shadowImage = UIImage() // Hide the navigation bar shadow
-        }
-        .sheet(isPresented: $isAboutDialogPresented) {
-            AboutDialog(isPresented: $isAboutDialogPresented)
-                .preferredColorScheme(isDarkMode ? .dark : .light) // Set preferred color scheme for the About dialog
         }
         .sheet(isPresented: $isAddQuoteDialogPresented) {
             AddQuoteDialog(isPresented: $isAddQuoteDialogPresented, onAddQuote: addQuote) // Pass the onAddQuote closure
@@ -349,50 +334,6 @@ struct FilterDatabaseDropdown: View {
     }
 }
 
-struct AboutDialog: View {
-    @Binding var isPresented: Bool
-    let userName = "Jayanth Vennamreddy"
-
-    var body: some View {
-        ZStack {
-            Color(UIColor(red: 235/255, green: 235/255, blue: 235/255, alpha: 1.0)) // Light gray background
-                .edgesIgnoringSafeArea(.all)
-
-            VStack {
-                Text("About Quotely")
-                    .font(.custom("Avenir-Black", size: 28)) // Avenir-Black font for the title
-                    .padding()
-                    .foregroundColor(.black) // Black text color
-
-                Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
-                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .foregroundColor(.black) // Black text color
-
-                Text("\(userName)")
-                    .italic() // Italicize the text
-                    .padding(.top, 4) // Add top padding
-                    .foregroundColor(.black) // Black text color
-
-                Spacer()
-
-                Button("Close") {
-                    isPresented = false
-                }
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button
-                .padding()
-                .foregroundColor(.white) // White text color
-                .background(Color.blue) // Blue background color
-                .cornerRadius(10) // Rounded button corners
-                .padding()
-            }
-            .foregroundColor(.black) // Set text color to black
-        }
-    }
-}
-
-
 struct AddQuoteDialog: View {
     @Binding var isPresented: Bool
     var onAddQuote: (String, FilterCreator, FilterLength, String) -> Void // Add the onAddQuote closure
@@ -428,19 +369,18 @@ struct AddQuoteDialog: View {
                     .pickerStyle(SegmentedPickerStyle())
                 }
 
-                Section {
-                    Button("Add Quote") {
-                        // Call onAddQuote closure when the "Add Quote" button is tapped
-                        onAddQuote(quote, selectedCreator, .all, creatorName) // Always pass .all for lengthCategory
-                        isPresented = false // Dismiss the dialog
-                    }
+                Button("Add Quote") {
+                    onAddQuote(quote, selectedCreator, .all, creatorName) // Call the onAddQuote closure with parameters
+                    isPresented = false
                 }
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
             }
             .navigationBarTitle("Add Quote")
-            .navigationBarItems(trailing: Button("Cancel") {
-                isPresented = false
-            })
+            .navigationBarItems(trailing:
+                Button("Cancel") {
+                    isPresented = false
+                }
+            )
         }
     }
 }
-
