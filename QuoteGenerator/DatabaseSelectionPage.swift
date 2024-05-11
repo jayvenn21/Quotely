@@ -15,6 +15,9 @@ struct DatabaseSelectionPage: View {
                 Text("Kanye Database").tag("Kanye Database")
                 Text("Quote Garden Database").tag("Quote Garden Database")
                 Text("Stoicism Database").tag("Stoicism Database")
+                Text("Zen Database").tag("Zen Database")
+                Text("Breaking Bad Database").tag("Breaking Bad Database")
+                Text("Game of Thrones Database").tag("Game of Thrones Database")
                 
             }
             .pickerStyle(MenuPickerStyle())
@@ -39,6 +42,10 @@ struct DatabaseSelectionPage: View {
             QGDatabasePage()
         case "Stoicism Database":
             StoicismDatabasePage()
+        case "Zen Database":
+            ZenDatabasePage()
+        case "Game of Thrones Database":
+            GoTDatabasePage()
         default:
             EmptyView()
         }
