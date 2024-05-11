@@ -30,6 +30,7 @@
 		5EEBC8182BEF187700543833 /* RSDatabasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8172BEF187700543833 /* RSDatabasePage.swift */; };
 		5EEBC81A2BEF1A8E00543833 /* STSelectionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC8192BEF1A8E00543833 /* STSelectionPage.swift */; };
 		5EEBC81C2BEF1AA700543833 /* BCSSelectionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC81B2BEF1AA700543833 /* BCSSelectionPage.swift */; };
+		5EEBC81E2BEFC24800543833 /* QuoteDayPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEBC81D2BEFC24800543833 /* QuoteDayPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		5EEBC8172BEF187700543833 /* RSDatabasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSDatabasePage.swift; sourceTree = "<group>"; };
 		5EEBC8192BEF1A8E00543833 /* STSelectionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STSelectionPage.swift; sourceTree = "<group>"; };
 		5EEBC81B2BEF1AA700543833 /* BCSSelectionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCSSelectionPage.swift; sourceTree = "<group>"; };
+		5EEBC81D2BEFC24800543833 /* QuoteDayPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteDayPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 				5EEBC8172BEF187700543833 /* RSDatabasePage.swift */,
 				5EEBC8192BEF1A8E00543833 /* STSelectionPage.swift */,
 				5EEBC81B2BEF1AA700543833 /* BCSSelectionPage.swift */,
+				5EEBC81D2BEFC24800543833 /* QuoteDayPage.swift */,
 			);
 			path = QuoteGenerator;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				5E16B1AB2BC23B8D0072E408 /* HomePage.swift in Sources */,
 				5EEBC8102BEF008200543833 /* BBDatabasePage.swift in Sources */,
 				5EEBC8002BED1DF100543833 /* AboutView.swift in Sources */,
+				5EEBC81E2BEFC24800543833 /* QuoteDayPage.swift in Sources */,
 				5EEBC80E2BEEE34900543833 /* ZenDatabasePage.swift in Sources */,
 				5EEBC8042BEDBCCA00543833 /* SettingsPage.swift in Sources */,
 				5EEBC8022BEDBB9D00543833 /* MainPage.swift in Sources */,

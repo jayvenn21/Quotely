@@ -20,6 +20,11 @@ struct MainPage: View {
                     Image(systemName: "book") // System name image for Database
                     Text("Database")
                 }
+            QuoteDayPage()
+                .tabItem {
+                    Image(systemName: "lightbulb") // System name image for Database
+                    Text("Quote of the Day")
+                }
             SettingsPage()
                 .tabItem {
                     Image(systemName: "gear") // System name image for Settings

@@ -10,6 +10,7 @@ struct DatabaseSelectionPage: View {
                 .padding()
             
             Picker("Database", selection: $selectedDatabase) {
+                Text("All Databases").tag("All Databases")
                 Text("Anime Database").tag("Anime Database")
                 Text("Kanye Database").tag("Kanye Database")
                 Text("Stoicism Database").tag("Stoicism Database")
