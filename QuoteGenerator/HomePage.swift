@@ -280,13 +280,17 @@ struct FilterLengthDropdown: View {
     var body: some View {
         Picker("Length", selection: $option) {
             Text("All").tag(FilterLength.all)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
             Text("Short").tag(FilterLength.short)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
             Text("Medium").tag(FilterLength.medium)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
             Text("Large").tag(FilterLength.large)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -298,15 +302,20 @@ struct FilterCreatorDropdown: View {
     var body: some View {
         Picker("Creator", selection: $option) {
             Text("All").tag(FilterCreator.all)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
             Text("Poet").tag(FilterCreator.poet)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
             Text("Engineer").tag(FilterCreator.engineer)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
             Text("Artist").tag(FilterCreator.artist)
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
-            Text("Other").tag(FilterCreator.other) // Changed the tag to .other
-                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
+            Text("Other").tag(FilterCreator.other)
+                .font(.custom("Avenir-Black", size: 18))
+                .foregroundColor(Color.primary) // Set text color to default
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -321,7 +330,8 @@ struct FilterDatabaseDropdown: View {
         Picker("Database", selection: $option) {
             ForEach(databases, id: \.self) { database in
                 Text(database)
-                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                    .font(.custom("Avenir-Black", size: 18))
+                    .foregroundColor(Color.primary) // Set text color to default
             }
         }
         .pickerStyle(MenuPickerStyle())
@@ -350,15 +360,20 @@ struct AddQuoteDialog: View {
                 Section(header: Text("Creator")) {
                     Picker("Creator", selection: $selectedCreator) {
                         Text("All").tag(FilterCreator.all)
-                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                            .font(.custom("Avenir-Black", size: 18))
+                            .foregroundColor(Color.primary) // Set text color to default
                         Text("Poet").tag(FilterCreator.poet)
-                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                            .font(.custom("Avenir-Black", size: 18))
+                            .foregroundColor(Color.primary) // Set text color to default
                         Text("Engineer").tag(FilterCreator.engineer)
-                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                            .font(.custom("Avenir-Black", size: 18))
+                            .foregroundColor(Color.primary) // Set text color to default
                         Text("Artist").tag(FilterCreator.artist)
-                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
-                        Text("Other").tag(FilterCreator.other) // Changed the tag to .other
-                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                            .font(.custom("Avenir-Black", size: 18))
+                            .foregroundColor(Color.primary) // Set text color to default
+                        Text("Other").tag(FilterCreator.other)
+                            .font(.custom("Avenir-Black", size: 18))
+                            .foregroundColor(Color.primary) // Set text color to default
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }

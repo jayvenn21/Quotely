@@ -61,10 +61,11 @@ struct QuoteDayPage: View {
             "https://movie-quote-api.herokuapp.com/v1/quote",
             "https://ron-swanson-quotes.herokuapp.com/v2/quotes",
             "https://strangerthings-quotes.vercel.app/api/quotes",
-            "https://bcs-quotes.vercel.app/api/quotes"
+            "https://bcs-quotes.vercel.app/api/quotes",
+            "https://officeapi.akashrajpurohit.com/quote/random"
             // Add more databases here
         ]
-        
+
         // Fetch quotes from each database and combine them into a single array
         var allQuotes: [QuoteDayQuote] = []
         let dispatchGroup = DispatchGroup()

@@ -11,7 +11,7 @@ struct DatabaseSelectionPage: View {
             
             Picker("Database", selection: $selectedDatabase) {
                 Text("All Databases").tag("All Databases")
-                Text("Anime Database").tag("Anime Database")
+                Text("Office Database").tag("Office Database")
                 Text("Kanye Database").tag("Kanye Database")
                 Text("Stoicism Database").tag("Stoicism Database")
                 Text("Zen Database").tag("Zen Database")
@@ -37,8 +37,8 @@ struct DatabaseSelectionPage: View {
     @ViewBuilder
     func selectedDestination() -> some View {
         switch selectedDatabase {
-        case "Anime Database":
-            AnimeDatabasePage()
+        case "Office Database":
+            OfficeSelectionPage()
         case "Kanye Database":
             KanyeDatabasePage()
         case "Stoicism Database":
