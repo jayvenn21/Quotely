@@ -78,7 +78,7 @@ struct HomePage: View {
     var body: some View {
         ZStack {
             // Background
-            Color.white
+            Color(UIColor.systemBackground)
                 .edgesIgnoringSafeArea(.all)
 
             VStack(spacing: 0) {
@@ -166,7 +166,7 @@ struct HomePage: View {
                 }
                 .padding(.bottom) // Add bottom padding to separate from the bottom edge
             }
-            .foregroundColor(.black) // Set text color to black
+            .foregroundColor(Color(UIColor.label)) // Set text color to system label color
             .padding()
 
             Spacer().frame(height: 50) // Add space at the bottom
@@ -258,16 +258,12 @@ struct FilterLengthDropdown: View {
         Picker("Length", selection: $option) {
             Text("All").tag(FilterLength.all)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
             Text("Short").tag(FilterLength.short)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
             Text("Medium").tag(FilterLength.medium)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
             Text("Large").tag(FilterLength.large)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -280,19 +276,14 @@ struct FilterCreatorDropdown: View {
         Picker("Creator", selection: $option) {
             Text("All").tag(FilterCreator.all)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
             Text("Poet").tag(FilterCreator.poet)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
             Text("Engineer").tag(FilterCreator.engineer)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
             Text("Artist").tag(FilterCreator.artist)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
             Text("Other").tag(FilterCreator.other)
                 .font(.custom("Avenir-Black", size: 18))
-                .foregroundColor(Color.primary) // Set text color to default
         }
         .pickerStyle(MenuPickerStyle())
     }
@@ -321,19 +312,14 @@ struct AddQuoteDialog: View {
                     Picker("Creator", selection: $selectedCreator) {
                         Text("All").tag(FilterCreator.all)
                             .font(.custom("Avenir-Black", size: 18))
-                            .foregroundColor(Color.primary) // Set text color to default
                         Text("Poet").tag(FilterCreator.poet)
                             .font(.custom("Avenir-Black", size: 18))
-                            .foregroundColor(Color.primary) // Set text color to default
                         Text("Engineer").tag(FilterCreator.engineer)
                             .font(.custom("Avenir-Black", size: 18))
-                            .foregroundColor(Color.primary) // Set text color to default
                         Text("Artist").tag(FilterCreator.artist)
                             .font(.custom("Avenir-Black", size: 18))
-                            .foregroundColor(Color.primary) // Set text color to default
                         Text("Other").tag(FilterCreator.other)
                             .font(.custom("Avenir-Black", size: 18))
-                            .foregroundColor(Color.primary) // Set text color to default
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }

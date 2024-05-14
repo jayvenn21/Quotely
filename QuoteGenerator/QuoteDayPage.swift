@@ -27,7 +27,14 @@ struct QuoteDayPage: View {
             
             if let quote = selectedQuote {
                 QuoteDayView(quote: quote)
+            } else if let _ = quoteGenerationDate {
+                // If there's no quote available for today
+                Text("Check back tomorrow for a new quote")
+                    .foregroundColor(.gray)
+                    .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
+                    .padding()
             } else {
+                // Initial loading state
                 Text("Loading...")
                     .foregroundColor(.gray)
                     .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
@@ -51,6 +58,11 @@ struct QuoteDayPage: View {
                 selectedQuote = storedQuote
                 return
             }
+        } else {
+            // If there's no stored quote for today, display the message
+            selectedQuote = nil
+            quoteGenerationDate = nil
+            return
         }
         
         // If there's no stored quote for today or it's outdated, fetch a new quote
