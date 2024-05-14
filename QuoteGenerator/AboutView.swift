@@ -5,20 +5,27 @@ struct AboutView: View {
 
     var body: some View {
         VStack {
-            Text("About Quotely")
-                .font(.custom("Avenir-Black", size: 28)) // Using Avenir-Black font
-                .padding()
+            Spacer()
 
-            Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
-                .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
-                .multilineTextAlignment(.center)
-                .padding()
+            VStack {
+                // Title
+                Text("About Quotely")
+                    .font(.custom("Avenir-Black", size: 28)) // Using Avenir-Black font
+                    .padding()
 
-            Text("\(userName)")
-                .italic()
-                .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
-                .padding(.top, 4)
+                // Description
+                Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
+                    .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
+                    .multilineTextAlignment(.center)
+                    .padding()
 
+                // User Name
+                Text("\(userName)")
+                    .italic()
+                    .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
+                    .padding(.top, 4)
+            }
+            
             Spacer()
         }
     }

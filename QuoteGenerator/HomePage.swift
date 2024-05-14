@@ -76,100 +76,100 @@ struct HomePage: View {
     }
 
     var body: some View {
-        ZStack {
-            // Background
-            Color(UIColor.systemBackground)
-                .edgesIgnoringSafeArea(.all)
+        VStack {
+            Spacer()
 
-            VStack(spacing: 0) {
+            HStack {
                 Spacer()
-                HStack {
-                    // Filter by Length
-                    Text("Filter by Length:")
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
-                    FilterLengthDropdown(option: $filterLengthOption)
-                }
-
-                HStack {
-                    // Filter by Creator
-                    Text("Filter by Creator:")
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
-                    FilterCreatorDropdown(option: $filterCreatorOption)
-
-                }
-
-                HStack {
-                    // Filter by Creator Name
-                    TextField("Filter by Creator Name", text: $enteredCreatorName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .font(.custom("Avenir-Black", size: 18))
-                        .padding()
-                }
-
-                if let creatorNameValidityMessage = creatorNameValidityMessage {
-                    Text(creatorNameValidityMessage)
-                        .font(.custom("Avenir-Black", size: 15))
-                        .foregroundColor(.red)
-                        .padding(.leading) // Add padding to align with TextField
-                }
-
-                Button("Generate Quote") {
-                    generateQuote()
-                }
-                .font(.custom("Avenir-Black", size: 21)) // Avenir-Black font for the button
-                .foregroundColor(.green) // Green color for the button text
-                .padding()
-
-                if let quote = quote {
-                    Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
-                        .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
-                        .padding()
-                        .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                        .lineLimit(nil) // Remove line limit to display the entire quote
-                        .multilineTextAlignment(.center) // Center align text
-                } else {
-                    Text("No Quote Generated")
-                        .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
-                        .padding()
-                        .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                }
-
-                // Error message display
-                if let errorMessage = errorMessage {
-                    Text(errorMessage)
-                        .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
-                        .foregroundColor(.red)
-                        .padding()
-                        .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                }
-
-                HStack(spacing: 20) { // Add HStack to contain both buttons with spacing
-                    Spacer() // Add spacer before the first rounded rectangle
-                    Button(action: {
-                        isAddQuoteDialogPresented = true
-                    }) {
-                        Text("Add Quote")
-                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
-                            .foregroundColor(.green) // Green color for the button text
-                            .padding(.horizontal, 10) // Add horizontal padding
+                VStack {
+                    // Filters
+                    HStack {
+                        // Filter by Length
+                        Text("Filter by Length:")
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
+                        FilterLengthDropdown(option: $filterLengthOption)
                     }
-                    Spacer() // Add spacer between the two rounded rectangles
-                    Button(action: {
-                        shareQuote()
-                    }) {
-                        Text("Share Quote")
-                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
-                            .foregroundColor(.green) // Green color for the button text
-                            .padding(.horizontal, 10) // Add horizontal padding
+
+                    HStack {
+                        // Filter by Creator
+                        Text("Filter by Creator:")
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
+                        FilterCreatorDropdown(option: $filterCreatorOption)
+
                     }
-                    Spacer() // Add spacer after the second rounded rectangle
+
+                    HStack {
+                        // Filter by Creator Name
+                        TextField("Filter by Creator Name", text: $enteredCreatorName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .font(.custom("Avenir-Black", size: 18))
+                            .padding()
+                    }
+
+                    if let creatorNameValidityMessage = creatorNameValidityMessage {
+                        Text(creatorNameValidityMessage)
+                            .font(.custom("Avenir-Black", size: 15))
+                            .foregroundColor(.red)
+                            .padding(.leading) // Add padding to align with TextField
+                    }
+
+                    Button("Generate Quote") {
+                        generateQuote()
+                    }
+                    .font(.custom("Avenir-Black", size: 21)) // Avenir-Black font for the button
+                    .foregroundColor(.green) // Green color for the button text
+                    .padding()
+
+                    if let quote = quote {
+                        Text("\"\(quote.text)\" - \(quote.creatorName)") // Display quote with creator's name
+                            .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
+                            .padding()
+                            .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                            .lineLimit(nil) // Remove line limit to display the entire quote
+                            .multilineTextAlignment(.center) // Center align text
+                    } else {
+                        Text("No Quote Generated")
+                            .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
+                            .padding()
+                            .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                    }
+
+                    // Error message display
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .font(.custom("Avenir-Black", size: 15)) // Avenir-Black font for the text
+                            .foregroundColor(.red)
+                            .padding()
+                            .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
+                    }
+
+                    HStack(spacing: 20) { // Add HStack to contain both buttons with spacing
+                        Spacer() // Add spacer before the first rounded rectangle
+                        Button(action: {
+                            isAddQuoteDialogPresented = true
+                        }) {
+                            Text("Add Quote")
+                                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+                                .foregroundColor(.green) // Green color for the button text
+                                .padding(.horizontal, 10) // Add horizontal padding
+                        }
+                        Spacer() // Add spacer between the two rounded rectangles
+                        Button(action: {
+                            shareQuote()
+                        }) {
+                            Text("Share Quote")
+                                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+                                .foregroundColor(.green) // Green color for the button text
+                                .padding(.horizontal, 10) // Add horizontal padding
+                        }
+                        Spacer() // Add spacer after the second rounded rectangle
+                    }
+                    .padding(.bottom) // Add bottom padding to separate from the bottom edge
                 }
-                .padding(.bottom) // Add bottom padding to separate from the bottom edge
+                Spacer()
             }
-            .foregroundColor(Color(UIColor.label)) // Set text color to system label color
-            .padding()
 
-            Spacer().frame(height: 50) // Add space at the bottom
+            Spacer() // Center content vertically
         }
         .navigationViewStyle(StackNavigationViewStyle()) // Use StackNavigationViewStyle for iPad
         .onAppear {
