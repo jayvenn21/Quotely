@@ -22,7 +22,7 @@ struct QuoteDayPage: View {
     var body: some View {
         VStack {
             Text("Quote of the Day")
-                .font(.title)
+                .font(.custom("Avenir-Black", size: 28)) // Using Avenir-Black font
                 .padding()
             
             if let quote = selectedQuote {
@@ -30,6 +30,7 @@ struct QuoteDayPage: View {
             } else {
                 Text("Loading...")
                     .foregroundColor(.gray)
+                    .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
                     .padding()
             }
         }
@@ -113,10 +114,10 @@ struct QuoteDayView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(quote.quote)
-                .font(.headline)
+                .font(.custom("Avenir-Black", size: 20)) // Using Avenir-Black font
                 .padding()
             Text("- \(quote.author)")
-                .font(.subheadline)
+                .font(.custom("Avenir-Black", size: 14)) // Using Avenir-Black font
                 .foregroundColor(.secondary)
         }
     }

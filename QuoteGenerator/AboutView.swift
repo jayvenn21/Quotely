@@ -6,16 +6,17 @@ struct AboutView: View {
     var body: some View {
         VStack {
             Text("About Quotely")
-                .font(.title)
+                .font(.custom("Avenir-Black", size: 28)) // Using Avenir-Black font
                 .padding()
 
             Text("Welcome to Quotely! This app generates random quotes based on two categories: length and creator. You can also add your own quotes. Enjoy!")
-                .font(.body)
+                .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
                 .multilineTextAlignment(.center)
                 .padding()
 
             Text("\(userName)")
                 .italic()
+                .font(.custom("Avenir-Black", size: 17)) // Using Avenir-Black font
                 .padding(.top, 4)
 
             Spacer()

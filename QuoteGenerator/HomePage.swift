@@ -29,7 +29,6 @@ struct HomePage: View {
     @State private var isAddQuoteDialogPresented = false
     @State private var filterLengthOption: FilterLength = .all
     @State private var filterCreatorOption: FilterCreator = .all
-    @State private var filterDatabaseOption: String = "All Databases"
     @State private var enteredCreatorName: String = ""
     @State private var quotes = [
         Quote(text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", creator: .poet, creatorName: "Nelson Mandela"),
@@ -39,7 +38,8 @@ struct HomePage: View {
         Quote(text: "Life is what happens when you're busy making other plans.", creator: .artist, creatorName: "John Lennon")
     ]
     @State private var errorMessage: String?
-    
+    @State private var creatorNameValidityMessage: String?
+
     var filteredQuotes: [Quote] {
         var filtered = quotes
 
@@ -60,14 +60,16 @@ struct HomePage: View {
             filtered = filtered.filter { $0.creator == filterCreatorOption }
         }
 
-        // Filter by database
-        if filterDatabaseOption != "All Databases" {
-            // Implement database filtering logic here
-        }
-
-        // Filter by creator name
+        // Filter by creator name (case insensitive)
         if !enteredCreatorName.isEmpty {
             filtered = filtered.filter { $0.creatorName.localizedCaseInsensitiveContains(enteredCreatorName) }
+            if filtered.isEmpty {
+                creatorNameValidityMessage = "No quotes found for the entered creator name."
+            } else {
+                creatorNameValidityMessage = nil
+            }
+        } else {
+            creatorNameValidityMessage = nil
         }
 
         return filtered
@@ -97,20 +99,18 @@ struct HomePage: View {
                 }
 
                 HStack {
-                    // Filter by Database
-                    Text("Filter by Database:")
-                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the label
-                    // Add filter by database dropdown here
-                    FilterDatabaseDropdown(option: $filterDatabaseOption)
-
-                }
-
-                HStack {
                     // Filter by Creator Name
                     TextField("Filter by Creator Name", text: $enteredCreatorName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .font(.custom("Avenir-Black", size: 18))
                         .padding()
+                }
+
+                if let creatorNameValidityMessage = creatorNameValidityMessage {
+                    Text(creatorNameValidityMessage)
+                        .font(.custom("Avenir-Black", size: 15))
+                        .foregroundColor(.red)
+                        .padding(.leading) // Add padding to align with TextField
                 }
 
                 Button("Generate Quote") {
@@ -148,44 +148,21 @@ struct HomePage: View {
                     Button(action: {
                         isAddQuoteDialogPresented = true
                     }) {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white) // White background color
-                            .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                            .overlay(
-                                Text("Add Quote")
-                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
-                                    .foregroundColor(.green) // Green color for the button text
-                                    .padding(.horizontal, 10) // Add horizontal padding
-                            )
+                        Text("Add Quote")
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+                            .foregroundColor(.green) // Green color for the button text
+                            .padding(.horizontal, 10) // Add horizontal padding
                     }
                     Spacer() // Add spacer between the two rounded rectangles
                     Button(action: {
                         shareQuote()
                     }) {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white) // White background color
-                            .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                            .overlay(
-                                Text("Share Quote")
-                                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
-                                    .foregroundColor(.green) // Green color for the button text
-                                    .padding(.horizontal, 10) // Add horizontal padding
-                            )
+                        Text("Share Quote")
+                            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+                            .foregroundColor(.green) // Green color for the button text
+                            .padding(.horizontal, 10) // Add horizontal padding
                     }
                     Spacer() // Add spacer after the second rounded rectangle
-                    // Add "Generate from Database" button
-                        NavigationLink(destination: DatabaseSelectionPage()) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white) // White background color
-                                .shadow(color: .gray, radius: 2, x: 0, y: 2) // Add shadow effect
-                                .overlay(
-                                    Text("Generate from Database")
-                                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
-                                        .foregroundColor(.green) // Green color for the button text
-                                        .padding(.horizontal, 10) // Add horizontal padding
-                                )
-                        }
-                    Spacer()
                 }
                 .padding(.bottom) // Add bottom padding to separate from the bottom edge
             }
@@ -316,23 +293,6 @@ struct FilterCreatorDropdown: View {
             Text("Other").tag(FilterCreator.other)
                 .font(.custom("Avenir-Black", size: 18))
                 .foregroundColor(Color.primary) // Set text color to default
-        }
-        .pickerStyle(MenuPickerStyle())
-    }
-}
-
-struct FilterDatabaseDropdown: View {
-    @Binding var option: String
-    
-    let databases = ["All Databases", "Database 1", "Database 2", "Database 3"]
-    
-    var body: some View {
-        Picker("Database", selection: $option) {
-            ForEach(databases, id: \.self) { database in
-                Text(database)
-                    .font(.custom("Avenir-Black", size: 18))
-                    .foregroundColor(Color.primary) // Set text color to default
-            }
         }
         .pickerStyle(MenuPickerStyle())
     }
