@@ -23,21 +23,22 @@ struct GoTDatabasePage: View {
     var body: some View {
         VStack {
             Text("Game of Thrones Page")
-                .font(.title)
+                .font(.custom("Avenir-Black", size: 34)) // Avenir-Black font for the title
                 .padding()
 
             if let quote = randomQuote {
                 VStack {
                     Text(quote.sentence)
-                        .font(.headline)
+                        .font(.custom("Avenir-Black", size: 24)) // Avenir-Black font for the headline
                         .multilineTextAlignment(.center)
                         .padding()
                     Text("- \(quote.character.name)")
-                        .font(.subheadline)
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the subheadline
                         .foregroundColor(.secondary)
                 }
             } else {
                 Text("Tap the button to generate a quote")
+                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                     .foregroundColor(.gray)
                     .padding()
             }
@@ -45,6 +46,7 @@ struct GoTDatabasePage: View {
             Button("Randomize!") {
                 fetchRandomQuote()
             }
+            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
             .padding()
         }
     }

@@ -5,13 +5,34 @@ struct KanyeDatabasePage: View {
     
     var body: some View {
         VStack {
-            Button("Fetch Random Kanye Quote") {
+            Text("Kanye")
+                .font(.custom("Avenir-Black", size: 34)) // Avenir-Black font for the title
+                .padding()
+
+            if let quote = networkManager.randomKanyeQuote {
+                VStack {
+                    Text("\"\(quote.quote)\"")
+                        .font(.custom("Avenir-Black", size: 24)) // Avenir-Black font for the headline
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    Text("- Kanye")
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the subheadline
+                        .foregroundColor(.secondary)
+                }
+            } else {
+                Text("Tap the button to generate a quote")
+                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                    .foregroundColor(.gray)
+                    .padding()
+            }
+
+            Button("Generate Quote") {
                 networkManager.fetchRandomKanyeQuote()
             }
-            if let randomKanyeQuote = networkManager.randomKanyeQuote {
-                Text("Random Kanye Quote: \(randomKanyeQuote.quote)")
-            }
+            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+            .padding()
         }
+        .padding()
     }
 }
 

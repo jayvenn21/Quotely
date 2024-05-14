@@ -11,16 +11,17 @@ struct RSDatabasePage: View {
     var body: some View {
         VStack {
             Text("Ron Swanson")
-                .font(.title)
+                .font(.custom("Avenir-Black", size: 34)) // Avenir-Black font for the title
                 .padding()
 
             if let quote = randomQuote {
                 Text(quote.quote)
-                    .font(.headline)
+                    .font(.custom("Avenir-Black", size: 24)) // Avenir-Black font for the headline
                     .multilineTextAlignment(.center)
                     .padding()
             } else {
                 Text("Tap the button to generate a quote")
+                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
                     .foregroundColor(.gray)
                     .padding()
             }
@@ -28,6 +29,7 @@ struct RSDatabasePage: View {
             Button("Generate Quote") {
                 fetchRandomQuote()
             }
+            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
             .padding()
         }
     }

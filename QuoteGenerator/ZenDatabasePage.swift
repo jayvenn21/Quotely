@@ -12,26 +12,31 @@ struct ZenDatabasePage: View {
     var body: some View {
         VStack {
             Text("Zen")
-                .font(.title)
+                .font(.custom("Avenir-Black", size: 34)) // Avenir-Black font for the title
                 .padding()
+
+            if let randomQuote = randomQuote {
+                VStack {
+                    Text("\"\(randomQuote.q)\"")
+                        .font(.custom("Avenir-Black", size: 24)) // Avenir-Black font for the headline
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    Text("- \(randomQuote.a)")
+                        .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the subheadline
+                        .foregroundColor(.secondary)
+                }
+            } else {
+                Text("Tap the button to generate a quote")
+                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                    .foregroundColor(.gray)
+                    .padding()
+            }
 
             Button("Fetch Random Quote") {
                 fetchRandomQuote()
             }
-
-            if let randomQuote = randomQuote {
-                Text("\"\(randomQuote.q)\"")
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                Text("- \(randomQuote.a)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-            } else {
-                Text("Tap the button to generate a quote")
-                    .foregroundColor(.gray)
-                    .padding()
-            }
+            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+            .padding()
         }
     }
 

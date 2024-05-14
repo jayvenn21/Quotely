@@ -7,18 +7,27 @@ struct StoicismDatabasePage: View {
     var body: some View {
         VStack {
             Text("Stoicism")
-                .font(.title)
+                .font(.custom("Avenir-Black", size: 34)) // Avenir-Black font for the title
                 .padding()
+            
+            if let randomQuote = randomQuote {
+                QuoteView(quote: randomQuote)
+            } else {
+                Text("Tap the button to generate a quote")
+                    .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the text
+                    .foregroundColor(.gray)
+                    .padding()
+            }
             
             Button("Fetch Random Quote") {
                 fetchRandomQuote()
             }
-            if let randomQuote = randomQuote {
-                QuoteView(quote: randomQuote)
-            }
+            .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the button text
+            .padding()
         }
         .onAppear {
-            fetchRandomQuote()
+            // Comment this line if you don't want the quote to be automatically generated
+            //fetchRandomQuote()
         }
     }
     
@@ -58,10 +67,10 @@ struct QuoteView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(quote.quote)
-                .font(.headline)
+                .font(.custom("Avenir-Black", size: 24)) // Avenir-Black font for the headline
                 .padding()
             Text("- \(quote.author)")
-                .font(.subheadline)
+                .font(.custom("Avenir-Black", size: 18)) // Avenir-Black font for the subheadline
                 .foregroundColor(.secondary)
         }
     }
