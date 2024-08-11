@@ -5,3 +5,5 @@ Features of app include:
 - Generating quote based on length and creator filters
 - Adding quote based with creator name and creator type
 - Sharing quote through various ioS methods (Messages, Reminders)
+- Quote of the Day
+- Ability to access a library of 10+ databases for quote generation
